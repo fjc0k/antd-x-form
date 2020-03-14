@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "target": "ES2019",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "declaration": true,
+    "removeComments": false,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "newLine": "LF",
+    "jsx": "react",
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "baseUrl": ".",
+    "outDir": "./lib",
+    "lib": [
+      "esnext"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/__*__"
+  ]
+}

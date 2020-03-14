@@ -1,0 +1,94 @@
+{
+  "name": "antd-x-form",
+  "version": "0.0.0",
+  "description": "让 antd@4 的表单更易用。",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/fjc0k/antd-x-form",
+  "license": "MIT",
+  "sideEffects": false,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fjc0k/antd-x-form.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fjc0k/antd-x-form/issues"
+  },
+  "keywords": [
+    "antd",
+    "antd-form",
+    "form",
+    "react"
+  ],
+  "files": [
+    "lib"
+  ],
+  "author": {
+    "name": "Jay Fong",
+    "email": "fjc0kb@gmail.com",
+    "url": "https://github.com/fjc0k"
+  },
+  "scripts": {
+    "build": "bili",
+    "test": "jest --coverage",
+    "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish"
+  },
+  "eslintConfig": {
+    "root": true,
+    "extends": "io"
+  },
+  "eslintIgnore": [
+    "node_modules",
+    "lib",
+    "__*__",
+    "*.js"
+  ],
+  "jest": {
+    "preset": "ts-jest",
+    "snapshotSerializers": [
+      "jest-snapshot-serializer-function-name"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.test.ts",
+      "!src/**/__*__/**/*"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.4",
+    "@types/react": "^16.9.23",
+    "antd": "^4.0.2",
+    "bili": "^4.8.1",
+    "codecov": "^3.6.5",
+    "eslint": "^6.8.0",
+    "eslint-config-io": "^0.8.4",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "jest-snapshot-serializer-function-name": "^1.1.0",
+    "lint-staged": "^10.0.8",
+    "react": "^16.13.0",
+    "rollup-plugin-typescript2": "^0.26.0",
+    "standard-version": "^7.1.0",
+    "ts-jest": "^25.2.1",
+    "typescript": "^3.8.3",
+    "vtils": "^2.57.0"
+  },
+  "dependencies": {
+    "@types/yup": "^0.26.32",
+    "ts-essentials": "^6.0.2",
+    "yup": "^0.28.3"
+  }
+}
