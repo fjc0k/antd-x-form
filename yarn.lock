@@ -8200,11 +8200,6 @@ vlq@^0.2.2:
   resolved "https://registry.npm.taobao.org/vlq/download/vlq-0.2.3.tgz#8f3e4328cf63b1540c0d67e1b2778386f8975b26"
   integrity sha1-jz5DKM9jsVQMDWfhsneDhviXWyY=
 
-vtils@^2.57.0:
-  version "2.57.0"
-  resolved "https://registry.npm.taobao.org/vtils/download/vtils-2.57.0.tgz#53d17784a7b34ba176dc87b04432aa787163086c"
-  integrity sha1-U9F3hKezS6F23IewRDKqeHFjCGw=
-
 w3c-hr-time@^1.0.1:
   version "1.0.2"
   resolved "https://registry.npm.taobao.org/w3c-hr-time/download/w3c-hr-time-1.0.2.tgz?cache=0&sync_timestamp=1583455604765&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fw3c-hr-time%2Fdownload%2Fw3c-hr-time-1.0.2.tgz#0a89cdf5cc15822df9c360543676963e0cc308cd"

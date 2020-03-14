@@ -1,6 +1,6 @@
 import * as Yup from 'yup'
 import React, {useCallback, useMemo} from 'react'
-import {castArray} from 'vtils'
+import {castArray} from '../../utils'
 import {Form} from 'antd'
 import {FormProps, Rule} from 'antd/lib/form'
 import {XFormChildrenProps, XFormData, XFormProps} from './types'
