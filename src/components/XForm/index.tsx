@@ -21,23 +21,23 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
         return form.resetFields()
       },
     }
-  }, [form])
+  }, [])
 
   const yupSchema = useMemo(() => {
     if (props.yupSchema) {
       return Yup.object(
         props.yupSchema(Yup, path => {
-          return `$${castArray(path as any).join('.')}`
+          return Yup.ref(`$${castArray(path as any).join('.')}`)
         }) as any,
       )
     }
-  }, [props.yupSchema])
+  }, [])
 
   const castData = useCallback((data: TData) => {
     return yupSchema
       ? yupSchema.cast(data)
       : data
-  }, [yupSchema])
+  }, [])
 
   const FormWrapper = useMemo((): XFormChildrenProps<TData>['Form'] => {
     const FormWrapper = (formProps: FormProps) => {
@@ -52,16 +52,20 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     }
     Object.assign(FormWrapper, Form)
     return FormWrapper as any
-  }, [props.onSubmit, castData, form])
+  }, [props.onSubmit])
 
   const FormItemWrapper = useMemo((): XFormChildrenProps<TData>['FormItem'] => {
     return formItemProps => {
       const schema = useMemo(() => {
-        return yupSchema
-          && Yup.reach(
-            yupSchema,
-            castArray(formItemProps.name as any).join('.'),
-          )
+        if (yupSchema) {
+          try {
+            return Yup.reach(
+              yupSchema,
+              castArray(formItemProps.name as any).join('.'),
+            )
+          }
+          catch (err) {}
+        }
       }, [formItemProps.name])
 
       const required = useMemo(() => {
@@ -78,7 +82,7 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
           rules.push({
             validator(rule, value) {
               return schema.validate(value, {
-                context: {},
+                context: form.getFieldsValue(true),
               }) as any
             },
           })
@@ -86,15 +90,24 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
         return rules
       }, [formItemProps.rules, schema])
 
+      const children = useMemo(() => {
+        if (typeof formItemProps.children === 'function') {
+          const Child = formItemProps.children as any
+          return <Child />
+        }
+        return formItemProps.children
+      }, [formItemProps.children])
+
       return (
         <Form.Item
           {...formItemProps as any}
+          children={children}
           required={required}
           rules={rules}
         />
       )
     }
-  }, [yupSchema])
+  }, [])
 
   const FormConditionalItemWrapper = useMemo((): XFormChildrenProps<TData>['FormConditionalItem'] => {
     return formItemProps => (
@@ -110,8 +123,13 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     )
   }, [])
 
+  const pathWrapper = useMemo((): XFormChildrenProps<TData>['path'] => {
+    return key => key
+  }, [])
+
   return (
     <props.children
+      path={pathWrapper}
       form={formWrapper}
       Form={FormWrapper}
       FormItem={FormItemWrapper}

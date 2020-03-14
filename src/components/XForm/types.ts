@@ -10,7 +10,7 @@ export interface XFormData extends Record<string, any> {}
 export type XFormYupSchemaYup = typeof Yup
 
 export interface XFormYupSchemaRef<TData extends XFormData> {
-  <K extends keyof TData>(path: Path<DeepRequired<TData>, K>): string,
+  <K extends keyof TData>(path: Path<DeepRequired<TData>, K>): Yup.Ref,
 }
 
 export interface XFormYupSchema<TData extends XFormData> {
@@ -57,7 +57,11 @@ export type XFormConditionalItemProps<TData extends XFormData> = Merge<FormItemP
 export interface XFormChildrenProps<TData extends XFormData> {
   /** 表单实例 */
   form: XFormInstance<XFormData>,
+  path<TKey extends Path<DeepRequired<TData>, TKey>>(key: TKey): TKey,
   Form: typeof Form,
-  FormItem<TKey extends Path<DeepRequired<TData>, TKey>, TValue extends PathValue<DeepRequired<TData>, TKey>>(props: XFormItemProps<TKey, TValue>): React.ReactElement,
+  FormItem<
+    TKey extends Path<DeepRequired<TData>, TKey>,
+    TValue extends PathValue<DeepRequired<TData>, TKey>,
+  >(props: XFormItemProps<TKey, TValue>): React.ReactElement,
   FormConditionalItem(props: XFormConditionalItemProps<TData>): React.ReactElement,
 }

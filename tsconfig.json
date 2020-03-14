@@ -15,8 +15,12 @@
     "sourceMap": false,
     "baseUrl": ".",
     "outDir": "./lib",
+    "paths": {
+      "antd-x-form": ["./src/*"]
+    },
     "lib": [
-      "esnext"
+      "esnext",
+      "DOM"
     ]
   },
   "include": [
