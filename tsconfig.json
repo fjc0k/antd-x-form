@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "outDir": "./lib",
     "paths": {
-      "antd-x-form": ["./src/*"]
+      "antd-x-form": ["./src/index.ts"]
     },
     "lib": [
       "esnext",
@@ -24,7 +24,7 @@
     ]
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*"
   ],
   "exclude": [
     "**/*.test.ts",
