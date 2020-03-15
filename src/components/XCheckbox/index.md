@@ -1,4 +1,4 @@
-# XSwitch
+# XCheckbox
 
 多选框。与原版 [Checkbox](https://ant.design/components/checkbox-cn/) 相比：
 
@@ -6,8 +6,8 @@
 
 ## value
 
-<code src="./value.tsx" />
+<code src="./codes/value.tsx" />
 
 ## defaultValue
 
-<code src="./defaultValue.tsx" />
+<code src="./codes/defaultValue.tsx" />
