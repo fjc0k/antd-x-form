@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import React, { useCallback, useMemo } from 'react';
 import { castArray } from '../../utils';
-import { Form } from 'antd';
+import { Form, Button } from 'antd';
 import { FormProps, Rule } from 'antd/lib/form';
 import { XFormChildrenProps, XFormData, XFormProps } from './types';
 
@@ -23,6 +23,10 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     };
   }, []);
 
+  const pathWrapper = useMemo((): XFormChildrenProps<TData>['path'] => {
+    return key => key;
+  }, []);
+
   const yupSchema = useMemo(() => {
     if (props.yupSchema) {
       return Yup.object(
@@ -41,6 +45,12 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     const FormWrapper = (formProps: FormProps) => {
       return (
         <Form
+          {...(typeof props.labelColSpan !== 'number'
+            ? {}
+            : {
+                labelCol: { span: props.labelColSpan },
+                wrapperCol: { span: 24 - props.labelColSpan },
+              })}
           {...formProps}
           form={form}
           initialValues={props.initialData}
@@ -50,7 +60,7 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     };
     Object.assign(FormWrapper, Form);
     return FormWrapper as any;
-  }, [props.onSubmit]);
+  }, [props.onSubmit, props.labelColSpan]);
 
   const FormItemWrapper = useMemo((): XFormChildrenProps<TData>['FormItem'] => {
     return formItemProps => {
@@ -99,6 +109,13 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
 
       return (
         <Form.Item
+          {...(typeof props.labelColSpan !== 'number' || !!formItemProps.label
+            ? {}
+            : {
+                wrapperCol: {
+                  offset: props.labelColSpan,
+                },
+              })}
           {...(formItemProps as any)}
           children={children}
           required={required}
@@ -106,11 +123,11 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
         />
       );
     };
-  }, []);
+  }, [props.labelColSpan]);
 
-  const FormConditionalItemWrapper = useMemo((): XFormChildrenProps<
+  const FormConditionItemWrapper = useMemo((): XFormChildrenProps<
     TData
-  >['FormConditionalItem'] => {
+  >['FormConditionItem'] => {
     return formItemProps => (
       <Form.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
         {({ getFieldsValue }) => {
@@ -121,8 +138,40 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     );
   }, []);
 
-  const pathWrapper = useMemo((): XFormChildrenProps<TData>['path'] => {
-    return key => key;
+  const FormActionItemWrapper = useMemo((): XFormChildrenProps<
+    TData
+  >['FormActionItem'] => {
+    return formItemProps => (
+      <Form.Item
+        {...(typeof props.labelColSpan !== 'number'
+          ? {}
+          : {
+              wrapperCol: {
+                offset: props.labelColSpan,
+                span: 24 - props.labelColSpan,
+              },
+            })}
+        {...formItemProps}
+      />
+    );
+  }, [props.labelColSpan]);
+
+  const SubmitButtonWrapper = useMemo((): XFormChildrenProps<
+    TData
+  >['SubmitButton'] => {
+    return buttonProps => <Button {...buttonProps} htmlType='submit' />;
+  }, []);
+
+  const ResetButtonWrapper = useMemo((): XFormChildrenProps<
+    TData
+  >['ResetButton'] => {
+    return buttonProps => (
+      <Button
+        {...buttonProps}
+        htmlType='reset'
+        onClick={formWrapper.resetData}
+      />
+    );
   }, []);
 
   return (
@@ -131,7 +180,10 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
       form={formWrapper}
       Form={FormWrapper}
       FormItem={FormItemWrapper}
-      FormConditionalItem={FormConditionalItemWrapper}
+      FormConditionItem={FormConditionItemWrapper}
+      FormActionItem={FormActionItemWrapper}
+      SubmitButton={SubmitButtonWrapper}
+      ResetButton={ResetButtonWrapper}
     />
   );
 }

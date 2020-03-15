@@ -3,6 +3,7 @@ import { DeepPartial, DeepRequired, Merge, Path, PathValue } from '../../types';
 import { Form } from 'antd';
 import { FormInstance } from 'antd/lib/form/Form';
 import { FormItemProps } from 'antd/lib/form/FormItem';
+import { ButtonProps } from 'antd/lib/button';
 
 /** 表单数据 */
 export interface XFormData extends Record<string, any> {}
@@ -23,6 +24,8 @@ export interface XFormYupSchema<TData extends XFormData> {
 export interface XFormProps<TData extends XFormData> {
   /** 初始数据 */
   initialData: TData;
+  /** 标签列栅格数 */
+  labelColSpan?: number;
   /** Yup 模式 */
   yupSchema?: XFormYupSchema<TData>;
   children(props: XFormChildrenProps<TData>): React.ReactElement;
@@ -53,7 +56,7 @@ export type XFormItemProps<TKey, TValue> = Merge<
   }
 >;
 
-export type XFormConditionalItemProps<TData extends XFormData> = Merge<
+export type XFormConditionItemProps<TData extends XFormData> = Merge<
   FormItemProps,
   {
     children: (props: { data: TData }) => React.ReactNode;
@@ -71,7 +74,8 @@ export interface XFormChildrenProps<TData extends XFormData> {
   >(
     props: XFormItemProps<TKey, TValue>,
   ): React.ReactElement;
-  FormConditionalItem(
-    props: XFormConditionalItemProps<TData>,
-  ): React.ReactElement;
+  FormConditionItem(props: XFormConditionItemProps<TData>): React.ReactElement;
+  FormActionItem(props: FormItemProps): React.ReactElement;
+  SubmitButton(props: ButtonProps): React.ReactElement;
+  ResetButton(props: ButtonProps): React.ReactElement;
 }
