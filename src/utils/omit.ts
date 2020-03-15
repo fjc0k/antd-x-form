@@ -1,1 +1,1 @@
-export {default as omit} from 'omit.js'
+export { default as omit } from 'omit.js';

@@ -18,16 +18,8 @@
     "paths": {
       "antd-x-form": ["./src/index.ts"]
     },
-    "lib": [
-      "esnext",
-      "DOM"
-    ]
+    "lib": ["esnext", "DOM"]
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "**/*.test.ts",
-    "**/__*__"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["**/*.test.ts", "**/__*__"]
 }
