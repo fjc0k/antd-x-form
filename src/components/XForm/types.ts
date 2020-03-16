@@ -65,7 +65,7 @@ export type XFormConditionItemProps<TData extends XFormData> = Merge<
 
 export interface XFormChildrenProps<TData extends XFormData> {
   /** 表单实例 */
-  form: XFormInstance<XFormData>;
+  form: XFormInstance<TData>;
   path<TKey extends Path<DeepRequired<TData>, TKey>>(key: TKey): TKey;
   Form: typeof Form;
   FormItem<

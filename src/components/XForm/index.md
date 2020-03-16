@@ -9,3 +9,7 @@
 ## 基本使用
 
 <code src="./codes/basic.tsx" />
+
+## 布局类型
+
+<code src="./codes/layout.tsx" />

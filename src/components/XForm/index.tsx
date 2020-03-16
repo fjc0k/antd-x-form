@@ -4,6 +4,7 @@ import { castArray } from '../../utils';
 import { Form, Button } from 'antd';
 import { FormProps, Rule } from 'antd/lib/form';
 import { XFormChildrenProps, XFormData, XFormProps } from './types';
+import { XFormContext } from './context';
 
 export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
   const [form] = Form.useForm();
@@ -12,7 +13,7 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     return {
       ...form,
       getData() {
-        return form.getFieldsValue(true);
+        return form.getFieldsValue(true) as any;
       },
       setData(data) {
         return form.setFieldsValue(data);
@@ -44,18 +45,22 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
   const FormWrapper = useMemo((): XFormChildrenProps<TData>['Form'] => {
     const FormWrapper = (formProps: FormProps) => {
       return (
-        <Form
-          {...(typeof props.labelColSpan !== 'number'
-            ? {}
-            : {
-                labelCol: { span: props.labelColSpan },
-                wrapperCol: { span: 24 - props.labelColSpan },
-              })}
-          {...formProps}
-          form={form}
-          initialValues={props.initialData}
-          onFinish={data => props.onSubmit?.(castData(data as any) as any)}
-        />
+        <XFormContext.Provider value={{ layout: formProps.layout }}>
+          <Form
+            {...(typeof props.labelColSpan !== 'number' ||
+            formProps.layout === 'inline' ||
+            formProps.layout === 'vertical'
+              ? {}
+              : {
+                  labelCol: { span: props.labelColSpan },
+                  wrapperCol: { span: 24 - props.labelColSpan },
+                })}
+            {...formProps}
+            form={form}
+            initialValues={props.initialData}
+            onFinish={data => props.onSubmit?.(castData(data as any) as any)}
+          />
+        </XFormContext.Provider>
       );
     };
     Object.assign(FormWrapper, Form);
@@ -107,9 +112,14 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
         return formItemProps.children;
       }, [formItemProps.children]);
 
+      const { layout } = React.useContext(XFormContext);
+
       return (
         <Form.Item
-          {...(typeof props.labelColSpan !== 'number' || !!formItemProps.label
+          {...(typeof props.labelColSpan !== 'number' ||
+          !!formItemProps.label ||
+          layout === 'inline' ||
+          layout === 'vertical'
             ? {}
             : {
                 wrapperCol: {
@@ -141,19 +151,24 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
   const FormActionItemWrapper = useMemo((): XFormChildrenProps<
     TData
   >['FormActionItem'] => {
-    return formItemProps => (
-      <Form.Item
-        {...(typeof props.labelColSpan !== 'number'
-          ? {}
-          : {
-              wrapperCol: {
-                offset: props.labelColSpan,
-                span: 24 - props.labelColSpan,
-              },
-            })}
-        {...formItemProps}
-      />
-    );
+    return formItemProps => {
+      const { layout } = React.useContext(XFormContext);
+      return (
+        <Form.Item
+          {...(typeof props.labelColSpan !== 'number' ||
+          layout === 'inline' ||
+          layout === 'vertical'
+            ? {}
+            : {
+                wrapperCol: {
+                  offset: props.labelColSpan,
+                  span: 24 - props.labelColSpan,
+                },
+              })}
+          {...formItemProps}
+        />
+      );
+    };
   }, [props.labelColSpan]);
 
   const SubmitButtonWrapper = useMemo((): XFormChildrenProps<
