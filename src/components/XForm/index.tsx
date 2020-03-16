@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import React, { useCallback, useMemo } from 'react';
 import { castArray, hasOwn } from '../../utils';
 import { Form as AntdForm, Button } from 'antd';
-import { FormProps, Rule } from 'antd/lib/form';
+import { Rule } from 'antd/lib/form';
 import {
   XFormWrapperChildrenProps,
   XFormData,
@@ -19,7 +19,10 @@ export function XForm<TData extends XFormData>(
     return {
       ...antdForm,
       getData() {
-        return antdForm.getFieldsValue(true) as any;
+        return {
+          ...props.initialData,
+          ...antdForm.getFieldsValue(true),
+        } as any;
       },
       setData(data) {
         return antdForm.setFieldsValue(data);

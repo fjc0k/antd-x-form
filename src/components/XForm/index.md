@@ -10,6 +10,6 @@
 
 <code src="./codes/basic.tsx" />
 
-## 布局类型
+## 表单布局
 
 <code src="./codes/layout.tsx" />

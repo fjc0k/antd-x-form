@@ -27,7 +27,7 @@ export default function() {
   return (
     <XForm
       initialData={{
-        layout: 'vertical' as FormProps['layout'],
+        layout: 'horizontal' as FormProps['layout'],
         account: {
           user: '',
           pass: '',
