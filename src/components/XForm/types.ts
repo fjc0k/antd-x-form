@@ -1,6 +1,5 @@
 import * as Yup from 'yup';
 import { DeepPartial, DeepRequired, Merge, Path, PathValue } from '../../types';
-import { Form } from 'antd';
 import { FormInstance, FormProps } from 'antd/lib/form/Form';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { ButtonProps } from 'antd/lib/button';
@@ -8,14 +7,28 @@ import { ButtonProps } from 'antd/lib/button';
 /** 表单数据 */
 export interface XFormData extends Record<string, any> {}
 
-export type XFormWrapperYupSchemaProvider = typeof Yup;
+export type XFormWrapperYupSchemaProvider<TData extends XFormData> = Merge<
+  typeof Yup,
+  {
+    objectOf<
+      TPath extends Path<DeepRequired<TData>, TPath>,
+      TValue extends PathValue<DeepRequired<TData>, TPath>
+    >(
+      path: TPath,
+      schema: Yup.ObjectSchemaDefinition<TValue>,
+    ): Yup.ObjectSchema<TValue>;
+  }
+>;
 
 export interface XFormWrapperYupSchemaRef<TData extends XFormData> {
   <K extends keyof TData>(path: Path<DeepRequired<TData>, K>): Yup.Ref;
 }
 
 export interface XFormWrapperYupSchema<TData extends XFormData> {
-  (yup: XFormWrapperYupSchemaProvider, ref: XFormWrapperYupSchemaRef<TData>): {
+  (
+    yup: XFormWrapperYupSchemaProvider<TData>,
+    ref: XFormWrapperYupSchemaRef<TData>,
+  ): {
     [K in keyof TData]?: Yup.Schema<TData[K]>;
   };
 }

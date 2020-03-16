@@ -40,9 +40,15 @@ export function XForm<TData extends XFormData>(
   const yupSchema = useMemo(() => {
     if (props.yupSchema) {
       return Yup.object(
-        props.yupSchema(Yup, path => {
-          return Yup.ref(`$${castArray(path as any).join('.')}`);
-        }) as any,
+        props.yupSchema(
+          {
+            ...Yup,
+            objectOf: (path, schema) => Yup.object(schema),
+          },
+          path => {
+            return Yup.ref(`$${castArray(path as any).join('.')}`);
+          },
+        ) as any,
       );
     }
   }, []);
