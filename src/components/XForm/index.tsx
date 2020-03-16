@@ -1,31 +1,37 @@
 import * as Yup from 'yup';
 import React, { useCallback, useMemo } from 'react';
-import { castArray } from '../../utils';
-import { Form, Button } from 'antd';
+import { castArray, hasOwn } from '../../utils';
+import { Form as AntdForm, Button } from 'antd';
 import { FormProps, Rule } from 'antd/lib/form';
-import { XFormChildrenProps, XFormData, XFormProps } from './types';
+import {
+  XFormWrapperChildrenProps,
+  XFormData,
+  XFormWrapperProps,
+} from './types';
 import { XFormContext } from './context';
 
-export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
-  const [form] = Form.useForm();
+export function XForm<TData extends XFormData>(
+  props: XFormWrapperProps<TData>,
+) {
+  const [antdForm] = AntdForm.useForm();
 
-  const formWrapper = useMemo((): XFormChildrenProps<TData>['form'] => {
+  const form = useMemo((): XFormWrapperChildrenProps<TData>['form'] => {
     return {
-      ...form,
+      ...antdForm,
       getData() {
-        return form.getFieldsValue(true) as any;
+        return antdForm.getFieldsValue(true) as any;
       },
       setData(data) {
-        return form.setFieldsValue(data);
+        return antdForm.setFieldsValue(data);
       },
       resetData() {
-        return form.resetFields();
+        return antdForm.resetFields();
       },
     };
   }, []);
 
-  const pathWrapper = useMemo((): XFormChildrenProps<TData>['path'] => {
-    return key => key;
+  const path = useMemo((): XFormWrapperChildrenProps<TData>['path'] => {
+    return path => path;
   }, []);
 
   const yupSchema = useMemo(() => {
@@ -42,11 +48,11 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     return yupSchema ? yupSchema.cast(data) : data;
   }, []);
 
-  const FormWrapper = useMemo((): XFormChildrenProps<TData>['Form'] => {
-    const FormWrapper = (formProps: FormProps) => {
+  const Form = useMemo((): XFormWrapperChildrenProps<TData>['Form'] => {
+    return formProps => {
       return (
         <XFormContext.Provider value={{ layout: formProps.layout }}>
-          <Form
+          <AntdForm
             {...(typeof props.labelColSpan !== 'number' ||
             formProps.layout === 'inline' ||
             formProps.layout === 'vertical'
@@ -56,18 +62,35 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
                   wrapperCol: { span: 24 - props.labelColSpan },
                 })}
             {...formProps}
-            form={form}
+            form={antdForm}
             initialValues={props.initialData}
+            onValuesChange={(changedData, data) => {
+              formProps.onDataChange?.({
+                changedData: changedData as any,
+                data: data as any,
+                isChanged(path) {
+                  let lastData = changedData as any;
+                  for (const key of castArray(path)) {
+                    if (hasOwn(lastData, key as any)) {
+                      lastData = lastData[key];
+                    } else {
+                      return false;
+                    }
+                  }
+                  return true;
+                },
+              });
+              formProps.onValuesChange &&
+                formProps.onValuesChange(changedData, data);
+            }}
             onFinish={data => props.onSubmit?.(castData(data as any) as any)}
           />
         </XFormContext.Provider>
       );
     };
-    Object.assign(FormWrapper, Form);
-    return FormWrapper as any;
   }, [props.onSubmit, props.labelColSpan]);
 
-  const FormItemWrapper = useMemo((): XFormChildrenProps<TData>['FormItem'] => {
+  const FormItem = useMemo((): XFormWrapperChildrenProps<TData>['FormItem'] => {
     return formItemProps => {
       const schema = useMemo(() => {
         if (yupSchema) {
@@ -96,7 +119,7 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
           rules.push({
             validator(rule, value) {
               return schema.validate(value, {
-                context: form.getFieldsValue(true),
+                context: antdForm.getFieldsValue(true),
               }) as any;
             },
           });
@@ -115,7 +138,7 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
       const { layout } = React.useContext(XFormContext);
 
       return (
-        <Form.Item
+        <AntdForm.Item
           {...(typeof props.labelColSpan !== 'number' ||
           !!formItemProps.label ||
           layout === 'inline' ||
@@ -135,26 +158,26 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     };
   }, [props.labelColSpan]);
 
-  const FormConditionItemWrapper = useMemo((): XFormChildrenProps<
+  const FormConditionItem = useMemo((): XFormWrapperChildrenProps<
     TData
   >['FormConditionItem'] => {
     return formItemProps => (
-      <Form.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
+      <AntdForm.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
         {({ getFieldsValue }) => {
           const data = getFieldsValue(true);
           return formItemProps.children({ data } as any) as any;
         }}
-      </Form.Item>
+      </AntdForm.Item>
     );
   }, []);
 
-  const FormActionItemWrapper = useMemo((): XFormChildrenProps<
+  const FormActionItem = useMemo((): XFormWrapperChildrenProps<
     TData
   >['FormActionItem'] => {
     return formItemProps => {
       const { layout } = React.useContext(XFormContext);
       return (
-        <Form.Item
+        <AntdForm.Item
           {...(typeof props.labelColSpan !== 'number' ||
           layout === 'inline' ||
           layout === 'vertical'
@@ -171,34 +194,30 @@ export function XForm<TData extends XFormData>(props: XFormProps<TData>) {
     };
   }, [props.labelColSpan]);
 
-  const SubmitButtonWrapper = useMemo((): XFormChildrenProps<
+  const SubmitButton = useMemo((): XFormWrapperChildrenProps<
     TData
   >['SubmitButton'] => {
     return buttonProps => <Button {...buttonProps} htmlType='submit' />;
   }, []);
 
-  const ResetButtonWrapper = useMemo((): XFormChildrenProps<
+  const ResetButton = useMemo((): XFormWrapperChildrenProps<
     TData
   >['ResetButton'] => {
     return buttonProps => (
-      <Button
-        {...buttonProps}
-        htmlType='reset'
-        onClick={formWrapper.resetData}
-      />
+      <Button {...buttonProps} htmlType='reset' onClick={form.resetData} />
     );
   }, []);
 
   return (
     <props.children
-      path={pathWrapper}
-      form={formWrapper}
-      Form={FormWrapper}
-      FormItem={FormItemWrapper}
-      FormConditionItem={FormConditionItemWrapper}
-      FormActionItem={FormActionItemWrapper}
-      SubmitButton={SubmitButtonWrapper}
-      ResetButton={ResetButtonWrapper}
+      path={path}
+      form={form}
+      Form={Form}
+      FormItem={FormItem}
+      FormConditionItem={FormConditionItem}
+      FormActionItem={FormActionItem}
+      SubmitButton={SubmitButton}
+      ResetButton={ResetButton}
     />
   );
 }

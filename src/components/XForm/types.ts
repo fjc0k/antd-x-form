@@ -1,37 +1,51 @@
 import * as Yup from 'yup';
 import { DeepPartial, DeepRequired, Merge, Path, PathValue } from '../../types';
 import { Form } from 'antd';
-import { FormInstance } from 'antd/lib/form/Form';
+import { FormInstance, FormProps } from 'antd/lib/form/Form';
 import { FormItemProps } from 'antd/lib/form/FormItem';
 import { ButtonProps } from 'antd/lib/button';
 
 /** 表单数据 */
 export interface XFormData extends Record<string, any> {}
 
-export type XFormYupSchemaYup = typeof Yup;
+export type XFormWrapperYupSchemaProvider = typeof Yup;
 
-export interface XFormYupSchemaRef<TData extends XFormData> {
+export interface XFormWrapperYupSchemaRef<TData extends XFormData> {
   <K extends keyof TData>(path: Path<DeepRequired<TData>, K>): Yup.Ref;
 }
 
-export interface XFormYupSchema<TData extends XFormData> {
-  (yup: XFormYupSchemaYup, ref: XFormYupSchemaRef<TData>): {
+export interface XFormWrapperYupSchema<TData extends XFormData> {
+  (yup: XFormWrapperYupSchemaProvider, ref: XFormWrapperYupSchemaRef<TData>): {
     [K in keyof TData]?: Yup.Schema<TData[K]>;
   };
 }
 
-/** 表单属性 */
-export interface XFormProps<TData extends XFormData> {
+/** 表单包裹器属性 */
+export interface XFormWrapperProps<TData extends XFormData> {
   /** 初始数据 */
   initialData: TData;
   /** 标签列栅格数 */
   labelColSpan?: number;
   /** Yup 模式 */
-  yupSchema?: XFormYupSchema<TData>;
-  children(props: XFormChildrenProps<TData>): React.ReactElement;
+  yupSchema?: XFormWrapperYupSchema<TData>;
+  children(props: XFormWrapperChildrenProps<TData>): React.ReactElement;
   /** 提交事件 */
   onSubmit?(data: TData): any;
 }
+
+/** 表单属性 */
+export type XFormProps<TData extends XFormData> = Merge<
+  FormProps,
+  {
+    onDataChange?(payload: {
+      changedData: DeepPartial<TData>;
+      data: TData;
+      isChanged<TPath extends Path<DeepRequired<TData>, TPath>>(
+        path: TPath,
+      ): boolean;
+    }): any;
+  }
+>;
 
 /** 表单实例 */
 export interface XFormInstance<TData extends XFormData> extends FormInstance {
@@ -43,10 +57,10 @@ export interface XFormInstance<TData extends XFormData> extends FormInstance {
   resetData(): void;
 }
 
-export type XFormItemProps<TKey, TValue> = Merge<
+export type XFormItemProps<TPath, TValue> = Merge<
   FormItemProps,
   {
-    name?: TKey;
+    name?: TPath;
     children?:
       | React.ReactNode
       | ((payload: {
@@ -63,16 +77,16 @@ export type XFormConditionItemProps<TData extends XFormData> = Merge<
   }
 >;
 
-export interface XFormChildrenProps<TData extends XFormData> {
+export interface XFormWrapperChildrenProps<TData extends XFormData> {
   /** 表单实例 */
   form: XFormInstance<TData>;
-  path<TKey extends Path<DeepRequired<TData>, TKey>>(key: TKey): TKey;
-  Form: typeof Form;
+  path<TPath extends Path<DeepRequired<TData>, TPath>>(path: TPath): TPath;
+  Form(props: XFormProps<TData>): React.ReactElement;
   FormItem<
-    TKey extends Path<DeepRequired<TData>, TKey>,
-    TValue extends PathValue<DeepRequired<TData>, TKey>
+    TPath extends Path<DeepRequired<TData>, TPath>,
+    TValue extends PathValue<DeepRequired<TData>, TPath>
   >(
-    props: XFormItemProps<TKey, TValue>,
+    props: XFormItemProps<TPath, TValue>,
   ): React.ReactElement;
   FormConditionItem(props: XFormConditionItemProps<TData>): React.ReactElement;
   FormActionItem(props: FormItemProps): React.ReactElement;

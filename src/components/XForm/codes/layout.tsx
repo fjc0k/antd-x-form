@@ -54,12 +54,15 @@ export default function() {
         const [layout, setLayout] = useState(() => form.getData().layout);
 
         return (
-          <Form layout={layout} onValuesChange={console.log}>
+          <Form
+            layout={layout}
+            onDataChange={({ data, isChanged }) => {
+              if (isChanged('layout')) {
+                setLayout(data.layout);
+              }
+            }}>
             <FormItem label='布局类型' name='layout'>
-              <XRadioButtonGroup
-                onChange={e => setLayout(e.target.value)}
-                options={layouts}
-              />
+              <XRadioButtonGroup options={layouts} />
             </FormItem>
             <FormItem name={['account', 'user']} label='用户名'>
               <Input placeholder='请输入' />
