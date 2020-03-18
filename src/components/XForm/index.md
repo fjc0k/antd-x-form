@@ -13,3 +13,7 @@
 ## 表单布局
 
 <code src="./codes/layout.tsx" />
+
+## 表单校验
+
+<code src="./codes/validate.tsx" />
