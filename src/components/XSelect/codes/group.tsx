@@ -1,0 +1,54 @@
+/**
+ * title: 选项分组
+ * desc: 使用 `options[].children` 定义分组。
+ */
+
+import React from 'react'
+import { XSelect, XSelectOptions } from 'antd-x-form'
+
+enum App { wechat, weibo, dingding, github, gitlab }
+
+const apps: XSelectOptions<App> = [
+  {
+    label: '社交',
+    children: [
+      {
+        value: App.wechat,
+        label: '微信',
+      },
+      {
+        value: App.weibo,
+        label: '微博',
+      },
+      {
+        value: App.dingding,
+        label: '钉钉',
+      },
+    ],
+  },
+  {
+    label: '打码',
+    children: [
+      {
+        value: App.github,
+        label: 'GitHub',
+      },
+      {
+        value: App.gitlab,
+        label: 'GitLab',
+      },
+    ],
+  },
+]
+
+export default function () {
+  return (
+    <div>
+      <XSelect.Tags
+        options={apps}
+        placeholder='请选择您最喜爱的应用'
+        style={{ width: '100%' }}
+      />
+    </div>
+  )
+}
