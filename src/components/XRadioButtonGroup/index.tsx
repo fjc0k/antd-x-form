@@ -1,23 +1,21 @@
-import React from 'react';
-import { XRadioButtonGroupProps } from './types';
-import { Radio } from 'antd';
-import { omit } from '../../utils';
+import React from 'react'
+import { omit } from '../../utils'
+import { Radio } from 'antd'
+import { XRadioButtonGroupProps } from './types'
 
-export function XRadioButtonGroup<TValue>(
-  props: XRadioButtonGroupProps<TValue>,
-) {
-  const radioGroupProps = omit(props, ['options']);
+export function XRadioButtonGroup<TValue>(props: XRadioButtonGroupProps<TValue>) {
+  const radioGroupProps = omit(props, ['options'])
 
   return (
     <Radio.Group {...radioGroupProps}>
       {(props.options || []).map(option => (
         <Radio.Button
+          key={String(option.value)}
           value={option.value}
-          disabled={option.disabled}
-          key={String(option.value)}>
+          disabled={option.disabled}>
           {option.label}
         </Radio.Button>
       ))}
     </Radio.Group>
-  );
+  )
 }

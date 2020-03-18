@@ -33,7 +33,7 @@
     "dev": "dumi dev",
     "build": "bili",
     "test": "jest --coverage",
-    "prettier": "prettier --write '**/*'",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish"
   },
   "jest": {
@@ -54,13 +54,14 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,less,md,json}": [
-      "prettier --write",
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
       "git add"
     ]
   },
   "devDependencies": {
     "@ant-design/icons": "^4.0.2",
+    "@rushstack/eslint-config": "^0.5.4",
     "@types/jest": "^25.1.4",
     "@types/react": "^16.9.23",
     "@umijs/plugin-antd": "^0.3.0",
@@ -69,11 +70,12 @@
     "bili": "^4.8.1",
     "codecov": "^3.6.5",
     "dumi": "^1.0.7",
+    "eslint": "^6.8.0",
+    "eslint-config-io": "^0.8.7",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "jest-snapshot-serializer-function-name": "^1.1.0",
     "lint-staged": "^10.0.8",
-    "prettier": "^1.19.1",
     "react": "^16.13.0",
     "rollup-plugin-typescript2": "^0.26.0",
     "standard-version": "^7.1.0",

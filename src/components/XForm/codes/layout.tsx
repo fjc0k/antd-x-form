@@ -3,10 +3,10 @@
  * desc: 表单有三种布局。
  */
 
-import React, { useState } from 'react';
-import { Input, Checkbox } from 'antd';
-import { XForm, XRadioButtonOptions, XRadioButtonGroup } from 'antd-x-form';
-import { FormProps } from 'antd/lib/form';
+import React, { useState } from 'react'
+import { Checkbox, Input } from 'antd'
+import { FormProps } from 'antd/lib/form'
+import { XForm, XRadioButtonGroup, XRadioButtonOptions } from 'antd-x-form'
 
 const layouts: XRadioButtonOptions<FormProps['layout']> = [
   {
@@ -21,9 +21,9 @@ const layouts: XRadioButtonOptions<FormProps['layout']> = [
     value: 'inline',
     label: 'inline',
   },
-];
+]
 
-export default function() {
+export default function () {
   return (
     <XForm
       initialData={{
@@ -51,14 +51,14 @@ export default function() {
         SubmitButton,
         ResetButton,
       }) => {
-        const [layout, setLayout] = useState(() => form.getData().layout);
+        const [layout, setLayout] = useState(() => form.getData().layout)
 
         return (
           <Form
             layout={layout}
             onDataChange={({ data, isChanged }) => {
               if (isChanged('layout')) {
-                setLayout(data.layout);
+                setLayout(data.layout)
               }
             }}>
             <FormItem label='布局类型' name='layout'>
@@ -84,8 +84,8 @@ export default function() {
               <ResetButton style={{ marginLeft: 8 }}>重置</ResetButton>
             </FormActionItem>
           </Form>
-        );
+        )
       }}
     </XForm>
-  );
+  )
 }

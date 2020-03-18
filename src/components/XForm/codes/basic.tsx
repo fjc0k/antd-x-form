@@ -3,11 +3,11 @@
  * desc: 包括布局、初始化、校验、提交、重置。
  */
 
-import React from 'react';
-import { Input, Checkbox, Modal } from 'antd';
-import { XForm } from 'antd-x-form';
+import React from 'react'
+import { Checkbox, Input, Modal } from 'antd'
+import { XForm } from 'antd-x-form'
 
-export default function() {
+export default function () {
   return (
     <XForm
       initialData={{
@@ -33,7 +33,7 @@ export default function() {
               {`记住我：${String(data.remember)}`}
             </div>
           ),
-        });
+        })
       }}>
       {({ Form, FormItem, FormActionItem, SubmitButton, ResetButton }) => (
         <Form>
@@ -59,5 +59,5 @@ export default function() {
         </Form>
       )}
     </XForm>
-  );
+  )
 }

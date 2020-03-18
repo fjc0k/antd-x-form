@@ -1,0 +1,5 @@
+node_modules/
+.umi/
+*.js
+__*__/
+lib/

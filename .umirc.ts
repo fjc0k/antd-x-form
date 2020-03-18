@@ -1,5 +1,5 @@
-import { defineConfig } from 'dumi';
+import { defineConfig } from "dumi"
 
 export default defineConfig({
-  title: 'antd-x-form',
-});
+  title: "antd-x-form"
+})

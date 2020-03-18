@@ -1,5 +1,5 @@
 // @index('./*', (pp, cc) => `export * from '${pp.path}';`)
-export * from './Path';
+export * from './Path'
 //@endindex
 
-export * from 'ts-essentials';
+export * from 'ts-essentials'

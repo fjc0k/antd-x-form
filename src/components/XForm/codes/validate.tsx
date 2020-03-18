@@ -3,21 +3,11 @@
  * desc: 包含必填、邮箱、数组、引用等。
  */
 
-import React from 'react';
-import { Input, InputNumber, Select } from 'antd';
-import {
-  XForm,
-  XRadioButtonOptions,
-  XRadioButtonGroup,
-  XSelectOptions,
-  XSelect,
-} from 'antd-x-form';
+import React from 'react'
+import { Input, InputNumber, Select } from 'antd'
+import { XForm, XRadioButtonGroup, XRadioButtonOptions, XSelect, XSelectOptions } from 'antd-x-form'
 
-enum Gender {
-  male,
-  female,
-  they,
-}
+enum Gender { male, female, they }
 
 const genders: XRadioButtonOptions<Gender> = [
   {
@@ -32,14 +22,9 @@ const genders: XRadioButtonOptions<Gender> = [
     value: Gender.they,
     label: '其他',
   },
-];
+]
 
-enum City {
-  beijing,
-  shanghai,
-  kunming,
-  nanning,
-}
+enum City { beijing, shanghai, kunming, nanning }
 
 const cities: XSelectOptions<City> = [
   {
@@ -58,9 +43,9 @@ const cities: XSelectOptions<City> = [
     value: City.nanning,
     label: '南宁',
   },
-];
+]
 
-export default function() {
+export default function () {
   return (
     <XForm
       initialData={{
@@ -121,11 +106,11 @@ export default function() {
             label='地址'
             name='address'
             dependencies={[$(['address', 'full'])]}>
-            <Input.Group compact>
-              <FormItem noStyle name={['address', 'city']}>
+            <Input.Group compact={true}>
+              <FormItem noStyle={true} name={['address', 'city']}>
                 <XSelect style={{ width: '5em' }} options={cities} />
               </FormItem>
-              <FormItem noStyle name={['address', 'full']}>
+              <FormItem noStyle={true} name={['address', 'full']}>
                 <Input
                   style={{ width: 'calc(100% - 5em)' }}
                   placeholder='详细地址'
@@ -151,5 +136,5 @@ export default function() {
         </Form>
       )}
     </XForm>
-  );
+  )
 }

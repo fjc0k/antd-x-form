@@ -1,4 +1,4 @@
-import { Config } from 'bili';
+import { Config } from 'bili'
 
 const config: Config = {
   input: 'src/index.ts',
@@ -14,8 +14,11 @@ const config: Config = {
   plugins: {
     typescript2: {
       objectHashIgnoreUnknownHack: false,
+      tsconfigOverride: {
+        include: ['src/**/*'],
+      },
     },
   },
-};
+}
 
-export default config;
+export default config

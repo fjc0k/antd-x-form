@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import { XSwitch } from 'antd-x-form';
+import React, { useState } from 'react'
+import { XSwitch } from 'antd-x-form'
 
-export default function() {
-  const [on, setOn] = useState(false);
+export default function () {
+  const [on, setOn] = useState(false)
 
-  return <XSwitch.OnOff value={on} onChange={setOn} />;
+  return (
+    <XSwitch.OnOff
+      value={on}
+      onChange={setOn}
+    />
+  )
 }

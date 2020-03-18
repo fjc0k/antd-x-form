@@ -1,8 +1,8 @@
-import React from 'react';
-import { XRadioButtonGroup, XRadioButtonOptions } from 'antd-x-form';
+import React from 'react'
+import { XRadioButtonGroup, XRadioButtonOptions } from 'antd-x-form'
 
-export default function() {
-  type ICity = 'bj' | 'sh' | 'sz' | 'cd';
+export default function () {
+  type ICity = 'bj' | 'sh' | 'sz' | 'cd'
 
   const cities: XRadioButtonOptions<ICity> = [
     {
@@ -21,7 +21,12 @@ export default function() {
       value: 'cd',
       label: '成都',
     },
-  ];
+  ]
 
-  return <XRadioButtonGroup<ICity> options={cities} defaultValue='sh' />;
+  return (
+    <XRadioButtonGroup<ICity>
+      options={cities}
+      defaultValue='sh'
+    />
+  )
 }
