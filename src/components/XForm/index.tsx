@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
 import React, { useCallback, useMemo } from 'react'
 import { Form as AntdForm, Button } from 'antd'
-import { castArray, hasOwn } from '../../utils'
+import { castArray, hasOwn, omit } from '../../utils'
 import { Rule } from 'antd/lib/form'
 import { XFormContext } from './context'
 import { XFormData, XFormWrapperChildrenProps, XFormWrapperProps } from './types'
@@ -66,7 +66,7 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
                   wrapperCol: { span: 24 - props.labelColSpan },
                 }
             )}
-            {...formProps}
+            {...omit(formProps, ['onDataChange'])}
             form={antdForm}
             initialValues={props.initialData}
             onValuesChange={(changedData, data) => {
