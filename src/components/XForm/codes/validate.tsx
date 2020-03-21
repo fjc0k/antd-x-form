@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { Input, InputNumber, Select } from 'antd'
-import { XForm, XRadioButtonGroup, XRadioButtonOptions, XSelect, XSelectOptions } from 'antd-x-form'
+import { XForm, XRadioButtonGroup, XRadioButtonOptions, XSelect, XSelectData } from 'antd-x-form'
 
 enum Gender { male, female, they }
 
@@ -26,7 +26,7 @@ const genders: XRadioButtonOptions<Gender> = [
 
 enum City { beijing, shanghai, kunming, nanning }
 
-const cities: XSelectOptions<City> = [
+const cities: XSelectData<City> = [
   {
     value: City.beijing,
     label: '北京',
@@ -108,7 +108,7 @@ export default function () {
             dependencies={[$(['address', 'full'])]}>
             <Input.Group compact={true}>
               <FormItem noStyle={true} name={['address', 'city']}>
-                <XSelect style={{ width: '5em' }} options={cities} />
+                <XSelect style={{ width: '5em' }} data={cities} />
               </FormItem>
               <FormItem noStyle={true} name={['address', 'full']}>
                 <Input

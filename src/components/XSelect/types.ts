@@ -20,7 +20,7 @@ export type XSelectGroup<TValue> =
     children: Array<XSelectItem<TValue>>,
   }
 
-export type XSelectOptions<TValue> = Array<XSelectItem<TValue> | XSelectGroup<TValue>>
+export type XSelectData<TValue> = Array<XSelectItem<TValue> | XSelectGroup<TValue>>
 
 export interface XSelectService<TValue> {
   (payload: {
@@ -28,7 +28,7 @@ export interface XSelectService<TValue> {
     keyword: string,
     /** 是否是初始搜索 */
     initial: boolean,
-  }): Promise<XSelectOptions<TValue>>,
+  }): Promise<XSelectData<TValue>>,
 }
 
 // options、service 必填一个
@@ -36,12 +36,12 @@ export interface XSelectService<TValue> {
 // labelInValue: 类型不友好，去除
 // optionLabelProp: 用 options[].option 代替
 export type XSelectProps<TValue> = RequireExactlyOne<Merge<StrictOmit<SelectProps<TValue>, 'mode' | 'labelInValue' | 'optionLabelProp'>, {
-  options?: XSelectOptions<TValue>,
+  data?: XSelectData<TValue>,
   service?: XSelectService<TValue>,
   defaultValue?: TValue,
   value?: TValue,
   onChange?: (value: TValue) => any,
-}>, 'options' | 'service'>
+}>, 'data' | 'service'>
 
 export type XSelectMultipleProps<TValue> = Merge<XSelectProps<TValue>, {
   defaultValue?: TValue[],

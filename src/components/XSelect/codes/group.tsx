@@ -1,14 +1,14 @@
 /**
  * title: 选项分组
- * desc: 使用 `options[].children` 定义分组。
+ * desc: 使用 `data[].children` 定义分组。
  */
 
 import React from 'react'
-import { XSelect, XSelectOptions } from 'antd-x-form'
+import { XSelect, XSelectData } from 'antd-x-form'
 
 enum App { wechat, weibo, dingding, github, gitlab }
 
-const apps: XSelectOptions<App> = [
+const apps: XSelectData<App> = [
   {
     label: '社交',
     children: [
@@ -45,7 +45,7 @@ export default function () {
   return (
     <div>
       <XSelect.Tags
-        options={apps}
+        data={apps}
         placeholder='请选择您最喜爱的应用'
         style={{ width: '100%' }}
       />

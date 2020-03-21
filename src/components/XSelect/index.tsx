@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { hasOwn, omit } from '../../utils'
+import { isSelectGroup } from './utils'
 import { Select } from 'antd'
 import { SelectProps, SelectValue } from 'antd/lib/select'
 import { useRefValue } from '../../hooks'
-import { XSelectMultipleProps, XSelectOptions, XSelectProps, XSelectTagsProps } from './types'
+import { XSelectData, XSelectGroup, XSelectMultipleProps, XSelectProps, XSelectTagsProps } from './types'
 
 export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>) {
   const propsRef = useRefValue(props)
@@ -13,48 +14,50 @@ export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>)
       : props.defaultValue,
   )
 
-  const selectProps = omit(props, ['options', 'service'])
+  const selectProps = omit(props, ['data', 'service'])
 
-  const [options, setOptions] = useState<XSelectOptions<TValue>>(props.options || [])
+  const [data, setData] = useState<XSelectData<TValue>>(props.data || [])
 
   const handleSearch = useCallback((keyword: string, initial = false) => {
     props.onSearch?.(keyword)
     propsRef.current.service?.({
       keyword: keyword,
       initial: initial,
-    }).then(nextOptions => {
-      setOptions(options => {
+    }).then(nextData => {
+      setData(currentData => {
         const mode = (propsRef.current as any as {mode: SelectProps<any>['mode']}).mode
         const isMultipleMode = mode === 'tags' || mode === 'multiple'
         const values: TValue[] = isMultipleMode ? valueRef.current as any : [valueRef.current]
-        const reserveOptions = options.filter(function filter(item) {
-          if (Array.isArray((item as any).children)) {
-            (item as any).children = (item as any).children.filter(filter)
-            return (item as any).children.length > 0
+        const data = currentData.filter(function filter(itemOrGroup) {
+          if (isSelectGroup(itemOrGroup)) {
+            itemOrGroup.children = itemOrGroup.children.filter(filter)
+            return itemOrGroup.children.length > 0
           }
-          return values.indexOf((item as any).value) > -1
+          return values.includes(itemOrGroup.value)
         })
-        for (const nextOption of nextOptions) {
-          if (Array.isArray((nextOption as any).children)) {
-            const children = (
-              reserveOptions
-                .find(item => item.label === nextOption.label && Array.isArray((item as any).children)) as any
-            )
-            if (children) {
-              for (const item2 of (nextOption as any).children) {
-                if (!children.find((item: any) => (item as any).value === (item2 as any).value)) {
-                  children.push(item2)
-                }
-              }
+        for (const itemOrGroup of nextData) {
+          if (isSelectGroup(itemOrGroup)) {
+            const existingGroup: XSelectGroup<any> | undefined = data.find(item => isSelectGroup(item) && (hasOwn(item, 'key') ? item.key === itemOrGroup.key : item.label === itemOrGroup.label)) as any
+            if (!existingGroup) {
+              data.push(itemOrGroup)
+            }
+            else {
+              existingGroup.children.push(
+                ...itemOrGroup.children.filter(item => {
+                  return !existingGroup.children.find(
+                    existingItem => existingItem.value === item.value,
+                  )
+                }),
+              )
             }
           }
           else {
-            if (!reserveOptions.find(item => (item as any).value === (item as any).value)) {
-              reserveOptions.push(nextOption)
+            if (!data.find(item => !isSelectGroup(item) && item.value === itemOrGroup.value)) {
+              data.push(itemOrGroup)
             }
           }
         }
-        return reserveOptions
+        return data
       })
     })
   }, [])
@@ -71,25 +74,25 @@ export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>)
   }, [])
 
   const children = useMemo(() => {
-    return options.map(function render(item) {
-      return Array.isArray((item as any).children)
+    return data.map(function render(item) {
+      return isSelectGroup(item)
         ? (
           <Select.OptGroup
-            key={(item as any).key || item.label as any}
+            key={`group_${item.key ?? item.label}`}
             label={item.label}>
-            {(item as any).children.map(render)}
+            {item.children.map(render)}
           </Select.OptGroup>
         )
         : (
           <Select.Option
-            key={(item as any).value}
-            value={(item as any).value}
-            label={item.label || (item as any).option}>
-            {(item as any).option || item.label}
+            key={`item_${item.value}`}
+            value={item.value as any}
+            label={item.label ?? item.option}>
+            {item.option ?? item.label}
           </Select.Option>
         )
     })
-  }, [options])
+  }, [data])
 
   return (
     <Select

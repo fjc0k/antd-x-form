@@ -1,14 +1,14 @@
 /**
  * title: 基本使用
- * desc: 使用必需的 `options` 属性设置选项列表。
+ * desc: 使用必需的 `data` 属性设置选项列表。
  */
 
 import React, { useState } from 'react'
-import { XSelect, XSelectOptions } from 'antd-x-form'
+import { XSelect, XSelectData } from 'antd-x-form'
 
 enum Gender { male, female, they }
 
-const genders: XSelectOptions<Gender> = [
+const genders: XSelectData<Gender> = [
   {
     value: Gender.male,
     label: '男',
@@ -29,17 +29,17 @@ export default function () {
   return (
     <div>
       <XSelect
-        options={genders}
+        data={genders}
         placeholder='请选择您的性别'
       />
       <XSelect
-        options={genders}
+        data={genders}
         defaultValue={Gender.male}
         placeholder='请选择您的性别'
         style={{ marginLeft: 8 }}
       />
       <XSelect
-        options={genders}
+        data={genders}
         value={gender}
         placeholder='请选择您的性别'
         style={{ marginLeft: 8 }}
