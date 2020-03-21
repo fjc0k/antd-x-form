@@ -31,7 +31,7 @@
   },
   "scripts": {
     "dev": "dumi dev",
-    "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
+    "build": "tsc -p tsconfig-cjs.json && tsc -p tsconfig-esm.json",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish"
