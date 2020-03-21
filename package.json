@@ -2,9 +2,9 @@
   "name": "antd-x-form",
   "version": "0.0.0",
   "description": "让 antd@4 的表单更易用。",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/cjs/index.d.ts",
   "homepage": "https://github.com/fjc0k/antd-x-form",
   "license": "MIT",
   "sideEffects": false,
@@ -31,20 +31,19 @@
   },
   "scripts": {
     "dev": "dumi dev",
-    "build": "bili",
+    "build": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "test": "jest --coverage",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
     "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish"
   },
   "jest": {
     "preset": "ts-jest",
-    "snapshotSerializers": [
-      "jest-snapshot-serializer-function-name"
-    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.test.ts",
-      "!src/**/__*__/**/*"
+      "!src/**/__*__/**/*",
+      "!src/**/.umi/**/*",
+      "!src/**/codes/**/*"
     ]
   },
   "husky": {
@@ -67,17 +66,14 @@
     "@umijs/plugin-antd": "^0.3.0",
     "@umijs/plugin-webpack-5": "^0.1.3",
     "antd": "^4.0.2",
-    "bili": "^4.8.1",
     "codecov": "^3.6.5",
     "dumi": "^1.0.7",
     "eslint": "^6.8.0",
     "eslint-config-io": "^0.8.7",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
-    "jest-snapshot-serializer-function-name": "^1.1.0",
     "lint-staged": "^10.0.8",
     "react": "^16.13.0",
-    "rollup-plugin-typescript2": "^0.26.0",
     "standard-version": "^7.1.0",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
@@ -85,6 +81,7 @@
   "dependencies": {
     "@types/yup": "^0.26.32",
     "ts-essentials": "^6.0.2",
+    "type-fest": "^0.12.0",
     "yup": "^0.28.3"
   }
 }

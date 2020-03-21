@@ -19,3 +19,8 @@
 ## 选项分组
 
 <code src="./codes/group.tsx" />
+
+
+## 搜索
+
+<code src="./codes/search.tsx" />

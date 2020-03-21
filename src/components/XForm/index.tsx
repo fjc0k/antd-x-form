@@ -56,14 +56,16 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
       return (
         <XFormContext.Provider value={{ layout: formProps.layout }}>
           <AntdForm
-            {...(typeof props.labelColSpan !== 'number'
-            || formProps.layout === 'inline'
-            || formProps.layout === 'vertical'
-              ? {}
-              : {
-                labelCol: { span: props.labelColSpan },
-                wrapperCol: { span: 24 - props.labelColSpan },
-              })}
+            {...(
+              typeof props.labelColSpan !== 'number'
+                || formProps.layout === 'inline'
+                || formProps.layout === 'vertical'
+                ? {}
+                : {
+                  labelCol: { span: props.labelColSpan },
+                  wrapperCol: { span: 24 - props.labelColSpan },
+                }
+            )}
             {...formProps}
             form={antdForm}
             initialValues={props.initialData}
@@ -144,16 +146,18 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
 
       return (
         <AntdForm.Item
-          {...(typeof props.labelColSpan !== 'number'
-          || !!formItemProps.label
-          || layout === 'inline'
-          || layout === 'vertical'
-            ? {}
-            : {
-              wrapperCol: {
-                offset: props.labelColSpan,
-              },
-            })}
+          {...(
+            typeof props.labelColSpan !== 'number'
+              || !!formItemProps.label
+              || layout === 'inline'
+              || layout === 'vertical'
+              ? {}
+              : {
+                wrapperCol: {
+                  offset: props.labelColSpan,
+                },
+              }
+          )}
           {...(formItemProps as any)}
           children={children}
           required={required}
@@ -165,7 +169,10 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
 
   const FormConditionItem = useMemo((): XFormWrapperChildrenProps<TData>['FormConditionItem'] => {
     return formItemProps => (
-      <AntdForm.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
+      <AntdForm.Item
+        {...formItemProps}
+        noStyle={true}
+        shouldUpdate={true}>
         {({ getFieldsValue }) => {
           const data = getFieldsValue(true)
           return formItemProps.children({ data } as any) as any
@@ -179,16 +186,18 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
       const { layout } = React.useContext(XFormContext)
       return (
         <AntdForm.Item
-          {...(typeof props.labelColSpan !== 'number'
-          || layout === 'inline'
-          || layout === 'vertical'
-            ? {}
-            : {
-              wrapperCol: {
-                offset: props.labelColSpan,
-                span: 24 - props.labelColSpan,
-              },
-            })}
+          {...(
+            typeof props.labelColSpan !== 'number'
+              || layout === 'inline'
+              || layout === 'vertical'
+              ? {}
+              : {
+                wrapperCol: {
+                  offset: props.labelColSpan,
+                  span: 24 - props.labelColSpan,
+                },
+              }
+          )}
           {...formItemProps}
         />
       )
@@ -196,7 +205,12 @@ export function XForm<TData extends XFormData>(props: XFormWrapperProps<TData>) 
   }, [props.labelColSpan])
 
   const SubmitButton = useMemo((): XFormWrapperChildrenProps<TData>['SubmitButton'] => {
-    return buttonProps => <Button {...buttonProps} htmlType='submit' />
+    return buttonProps => (
+      <Button
+        {...buttonProps}
+        htmlType='submit'
+      />
+    )
   }, [])
 
   const ResetButton = useMemo((): XFormWrapperChildrenProps<TData>['ResetButton'] => {
