@@ -8,12 +8,12 @@
 
 ## 基本使用
 
-<code src="./codes/basic.tsx" />
+<code src="./demo/basic.tsx" />
 
 ## 表单布局
 
-<code src="./codes/layout.tsx" />
+<code src="./demo/layout.tsx" />
 
 ## 表单校验
 
-<code src="./codes/validate.tsx" />
+<code src="./demo/validate.tsx" />

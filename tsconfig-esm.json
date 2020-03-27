@@ -6,5 +6,5 @@
     "outDir": "./lib/esm"
   },
   "include": ["src/**/*"],
-  "exclude": ["**/*.test.ts", "**/__*__", "**/codes", "**/.umi"]
+  "exclude": ["**/*.test.ts", "**/__*__", "**/demo", "**/.umi"]
 }

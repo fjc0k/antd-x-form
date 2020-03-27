@@ -8,19 +8,19 @@
 
 ## 基本使用
 
-<code src="./codes/basic.tsx" />
+<code src="./demo/basic.tsx" />
 
 
 ## 自定义选项内容
 
-<code src="./codes/option.tsx" />
+<code src="./demo/option.tsx" />
 
 
 ## 选项分组
 
-<code src="./codes/group.tsx" />
+<code src="./demo/group.tsx" />
 
 
 ## 搜索
 
-<code src="./codes/search.tsx" />
+<code src="./demo/search.tsx" />

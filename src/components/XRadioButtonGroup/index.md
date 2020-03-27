@@ -6,4 +6,4 @@
 
 ## 基本使用
 
-<code src="./codes/basic.tsx" />
+<code src="./demo/basic.tsx" />

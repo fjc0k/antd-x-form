@@ -7,12 +7,12 @@
 
 ## XSwitch.YesNo
 
-<code src="./codes/YesNo.tsx" />
+<code src="./demo/YesNo.tsx" />
 
 ## XSwitch.OnOff
 
-<code src="./codes/OnOff.tsx" />
+<code src="./demo/OnOff.tsx" />
 
 ## XSwitch.OpenClose
 
-<code src="./codes/OpenClose.tsx" />
+<code src="./demo/OpenClose.tsx" />
