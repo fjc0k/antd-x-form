@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { hasOwn, omit } from '../../utils'
 import { isSelectGroup } from './utils'
-import { Select } from 'antd'
+import { Select, Spin } from 'antd'
 import { SelectProps, SelectValue } from 'antd/lib/select'
-import { useRefValue } from '../../hooks'
+import { useDebounce, useRefValue } from '../../hooks'
 import { XSelectData, XSelectGroup, XSelectMultipleProps, XSelectProps, XSelectTagsProps } from './types'
 
 export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>) {
@@ -14,12 +14,22 @@ export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>)
       : props.defaultValue,
   )
 
+  const [loading, setLoading] = useState(!!props.service)
+
   const selectProps = omit(props, ['data', 'service'])
+  const extraSelectProps = useMemo((): SelectProps<TValue> => {
+    return !props.service ? {} : {
+      showSearch: true,
+      notFoundContent: loading ? <Spin /> : null,
+      onSearch: handleSearch,
+    }
+  }, [!!props.service, loading])
 
   const [data, setData] = useState<XSelectData<TValue>>(props.data || [])
 
-  const handleSearch = useCallback((keyword: string, initial = false) => {
+  const handleSearch = useDebounce((keyword: string, initial = false) => {
     props.onSearch?.(keyword)
+    setLoading(true)
     propsRef.current.service?.({
       keyword: keyword,
       initial: initial,
@@ -59,8 +69,9 @@ export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>)
         }
         return data
       })
+      setLoading(false)
     })
-  }, [])
+  }, 800)
 
   const handleChange = useCallback((value: TValue) => {
     valueRef.current = value
@@ -96,11 +107,10 @@ export function XSelect<TValue extends SelectValue>(props: XSelectProps<TValue>)
 
   return (
     <Select
+      {...extraSelectProps}
       {...selectProps}
       children={children}
       optionLabelProp='label'
-      showSearch={true}
-      onSearch={handleSearch}
       onChange={handleChange}
     />
   )
