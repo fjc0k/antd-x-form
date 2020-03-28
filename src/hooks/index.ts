@@ -1,3 +1,3 @@
-// @index('./*', (pp, cc) => `export * from '${pp.path}'`)
+// @index('./*', f => `export * from '${f.path}'`)
 export * from './useRefValue'
 // @endindex

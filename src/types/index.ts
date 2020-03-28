@@ -1,7 +1,7 @@
-// @index('./*', (pp, cc) => `export * from '${pp.path}';`)
+// @index('./*', f => `export * from '${f.path}'`)
 export * from './Path'
 //@endindex
 
-export * from 'ts-essentials'
-
 export { RequireExactlyOne } from 'type-fest'
+
+export * from 'ts-essentials'
