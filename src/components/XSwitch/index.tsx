@@ -1,20 +1,20 @@
 import React from 'react'
-import { hasOwn, omit } from '../../utils'
+import { hasOwn } from '../../utils'
 import { Switch } from 'antd'
-import { XSwitchProps } from './types'
+import { XSwitchOnOffProps, XSwitchOpenCloseProps, XSwitchProps, XSwitchYesNoProps } from './types'
 
 export function XSwitch(props: XSwitchProps) {
-  const switchProps = omit(props, ['value', 'defaultValue'])
+  const { value, defaultValue, ...switchProps } = props
   if (hasOwn(props, 'value')) {
-    switchProps.checked = props.value
+    switchProps.checked = value
   }
   else if (hasOwn(props, 'defaultValue')) {
-    switchProps.defaultChecked = props.defaultValue
+    switchProps.defaultChecked = defaultValue
   }
   return <Switch {...switchProps} />
 }
 
-XSwitch.YesNo = function (props: XSwitchProps) {
+XSwitch.YesNo = function (props: XSwitchYesNoProps) {
   return (
     <XSwitch
       {...props}
@@ -24,7 +24,7 @@ XSwitch.YesNo = function (props: XSwitchProps) {
   )
 }
 
-XSwitch.OnOff = function (props: XSwitchProps) {
+XSwitch.OnOff = function (props: XSwitchOnOffProps) {
   return (
     <XSwitch
       {...props}
@@ -34,7 +34,7 @@ XSwitch.OnOff = function (props: XSwitchProps) {
   )
 }
 
-XSwitch.OpenClose = function (props: XSwitchProps) {
+XSwitch.OpenClose = function (props: XSwitchOpenCloseProps) {
   return (
     <XSwitch
       {...props}
