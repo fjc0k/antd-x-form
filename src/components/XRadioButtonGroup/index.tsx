@@ -3,7 +3,9 @@ import { omit } from '../../utils'
 import { Radio } from 'antd'
 import { XRadioButtonGroupProps } from './types'
 
-export function XRadioButtonGroup<TValue>(props: XRadioButtonGroupProps<TValue>) {
+export function XRadioButtonGroup<TValue>(
+  props: XRadioButtonGroupProps<TValue>,
+) {
   const radioGroupProps = omit(props, ['options'])
 
   return (

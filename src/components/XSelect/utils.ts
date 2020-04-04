@@ -1,6 +1,8 @@
 import { XSelectGroup, XSelectItem } from './types'
 
-// @ts-ignore
-export function isSelectGroup<T extends XSelectItem<any> | XSelectGroup<any>>(itemOrGroup: T): itemOrGroup is XSelectGroup<any> {
+export function isSelectGroup<T extends XSelectItem<any> | XSelectGroup<any>>(
+  itemOrGroup: T,
+  // @ts-ignore
+): itemOrGroup is XSelectGroup<any> {
   return Array.isArray((itemOrGroup as any).children)
 }

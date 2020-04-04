@@ -5,9 +5,19 @@
 
 import React from 'react'
 import { Input, InputNumber, Select } from 'antd'
-import { XForm, XRadioButtonGroup, XRadioButtonOptions, XSelect, XSelectData } from 'antd-x-form'
+import {
+  XForm,
+  XRadioButtonGroup,
+  XRadioButtonOptions,
+  XSelect,
+  XSelectData,
+} from 'antd-x-form'
 
-enum Gender { male, female, they }
+enum Gender {
+  male,
+  female,
+  they,
+}
 
 const genders: XRadioButtonOptions<Gender> = [
   {
@@ -24,7 +34,12 @@ const genders: XRadioButtonOptions<Gender> = [
   },
 ]
 
-enum City { beijing, shanghai, kunming, nanning }
+enum City {
+  beijing,
+  shanghai,
+  kunming,
+  nanning,
+}
 
 const cities: XSelectData<City> = [
   {
@@ -64,13 +79,9 @@ export default function () {
       labelColSpan={4}
       yupSchema={(_, $) => ({
         nickname: _.string().required(),
-        email: _.string()
-          .required()
-          .email(),
+        email: _.string().required().email(),
         gender: _.mixed().required(),
-        age: _.number()
-          .required()
-          .min(1),
+        age: _.number().required().min(1),
         address: _.objectOf('address', {
           city: _.mixed().required(),
           full: _.string().required('kkk'),

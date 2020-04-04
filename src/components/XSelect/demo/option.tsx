@@ -4,11 +4,19 @@
  */
 
 import React from 'react'
-import { AlipayOutlined, WechatOutlined, ZhihuOutlined } from '@ant-design/icons'
+import {
+  AlipayOutlined,
+  WechatOutlined,
+  ZhihuOutlined,
+} from '@ant-design/icons'
 import { Row } from 'antd'
 import { XSelect, XSelectData } from 'antd-x-form'
 
-enum App { wechat, alipay, zhihu }
+enum App {
+  wechat,
+  alipay,
+  zhihu,
+}
 
 const apps: XSelectData<App> = [
   {

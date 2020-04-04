@@ -7,18 +7,27 @@ export interface XSwitchProps extends SwitchProps {
    *
    * @default false
    */
-  value?: boolean,
+  value?: boolean
 
   /**
    * 初始是否选中。
    *
    * @default false
    */
-  defaultValue?: boolean,
+  defaultValue?: boolean
 }
 
-export type XSwitchYesNoProps = StrictOmit<XSwitchProps, 'checkedChildren' | 'unCheckedChildren'>
+export type XSwitchYesNoProps = StrictOmit<
+  XSwitchProps,
+  'checkedChildren' | 'unCheckedChildren'
+>
 
-export type XSwitchOnOffProps = StrictOmit<XSwitchProps, 'checkedChildren' | 'unCheckedChildren'>
+export type XSwitchOnOffProps = StrictOmit<
+  XSwitchProps,
+  'checkedChildren' | 'unCheckedChildren'
+>
 
-export type XSwitchOpenCloseProps = StrictOmit<XSwitchProps, 'checkedChildren' | 'unCheckedChildren'>
+export type XSwitchOpenCloseProps = StrictOmit<
+  XSwitchProps,
+  'checkedChildren' | 'unCheckedChildren'
+>

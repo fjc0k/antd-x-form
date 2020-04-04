@@ -1,5 +1,7 @@
 node_modules/
 .umi/
-*.js
 __*__/
 lib/
+
+# ref: https://github.com/microsoft/vscode-eslint/issues/550#issuecomment-434010041
+!.*

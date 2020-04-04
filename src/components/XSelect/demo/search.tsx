@@ -116,9 +116,9 @@ export default function () {
           Object.keys(Hero)
             .filter(hero => hero.includes(payload.keyword))
             .map<XSelectData<Hero>[0]>(hero => ({
-            label: hero,
-            value: (Hero as any)[hero],
-          })),
+              label: hero,
+              value: (Hero as any)[hero],
+            })),
         )
       }, 2000)
     })

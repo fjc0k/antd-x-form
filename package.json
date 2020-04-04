@@ -54,8 +54,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
+    ],
+    "*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write"
     ]
   },
   "devDependencies": {
@@ -69,10 +71,11 @@
     "codecov": "^3.6.5",
     "dumi": "^1.0.13",
     "eslint": "^6.8.0",
-    "eslint-config-io": "^0.8.7",
+    "eslint-config-io": "^0.8.8",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
+    "prettier": "^2.0.2",
     "react": "^16.13.0",
     "standard-version": "^7.1.0",
     "ts-jest": "^25.2.1",

@@ -6,7 +6,11 @@
 import React, { useState } from 'react'
 import { XSelect, XSelectData } from 'antd-x-form'
 
-enum Gender { male, female, they }
+enum Gender {
+  male,
+  female,
+  they,
+}
 
 const genders: XSelectData<Gender> = [
   {
@@ -28,10 +32,7 @@ export default function () {
 
   return (
     <div>
-      <XSelect
-        data={genders}
-        placeholder='请选择您的性别'
-      />
+      <XSelect data={genders} placeholder='请选择您的性别' />
       <XSelect
         data={genders}
         defaultValue={Gender.male}

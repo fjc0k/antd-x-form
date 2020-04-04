@@ -23,10 +23,5 @@ export default function () {
     },
   ]
 
-  return (
-    <XRadioButtonGroup<ICity>
-      options={cities}
-      defaultValue='sh'
-    />
-  )
+  return <XRadioButtonGroup<ICity> options={cities} defaultValue='sh' />
 }

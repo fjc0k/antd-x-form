@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "ES2019",
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "declaration": true,
     "removeComments": false,
@@ -18,5 +18,7 @@
       "antd-x-form": ["./src/index.ts"]
     },
     "lib": ["esnext", "DOM"]
-  }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules", "lib"]
 }

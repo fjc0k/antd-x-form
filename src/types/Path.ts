@@ -1,27 +1,27 @@
 // ref: https://github.com/microsoft/TypeScript/issues/12290#issuecomment-449425101
 interface PathArray<T, L> extends Array<string | number> {
-  ['0']?: keyof T,
+  ['0']?: keyof T
   ['1']?: L extends {
-    ['0']: infer K0,
+    ['0']: infer K0
   }
     ? K0 extends keyof T
       ? keyof T[K0]
       : never
-    : never,
+    : never
   ['2']?: L extends {
-    ['0']: infer K0,
-    ['1']: infer K1,
+    ['0']: infer K0
+    ['1']: infer K1
   }
     ? K0 extends keyof T
       ? K1 extends keyof T[K0]
         ? keyof T[K0][K1]
         : never
       : never
-    : never,
+    : never
   ['3']?: L extends {
-    ['0']: infer K0,
-    ['1']: infer K1,
-    ['2']: infer K2,
+    ['0']: infer K0
+    ['1']: infer K1
+    ['2']: infer K2
   }
     ? K0 extends keyof T
       ? K1 extends keyof T[K0]
@@ -30,12 +30,12 @@ interface PathArray<T, L> extends Array<string | number> {
           : never
         : never
       : never
-    : never,
+    : never
   ['4']?: L extends {
-    ['0']: infer K0,
-    ['1']: infer K1,
-    ['2']: infer K2,
-    ['3']: infer K3,
+    ['0']: infer K0
+    ['1']: infer K1
+    ['2']: infer K2
+    ['3']: infer K3
   }
     ? K0 extends keyof T
       ? K1 extends keyof T[K0]
@@ -46,13 +46,13 @@ interface PathArray<T, L> extends Array<string | number> {
           : never
         : never
       : never
-    : never,
+    : never
   ['5']?: L extends {
-    ['0']: infer K0,
-    ['1']: infer K1,
-    ['2']: infer K2,
-    ['3']: infer K3,
-    ['4']: infer K4,
+    ['0']: infer K0
+    ['1']: infer K1
+    ['2']: infer K2
+    ['3']: infer K3
+    ['4']: infer K4
   }
     ? K0 extends keyof T
       ? K1 extends keyof T[K0]
@@ -65,14 +65,14 @@ interface PathArray<T, L> extends Array<string | number> {
           : never
         : never
       : never
-    : never,
+    : never
   ['6']?: L extends {
-    ['0']: infer K0,
-    ['1']: infer K1,
-    ['2']: infer K2,
-    ['3']: infer K3,
-    ['4']: infer K4,
-    ['5']: infer K5,
+    ['0']: infer K0
+    ['1']: infer K1
+    ['2']: infer K2
+    ['3']: infer K3
+    ['4']: infer K4
+    ['5']: infer K5
   }
     ? K0 extends keyof T
       ? K1 extends keyof T[K0]
@@ -87,35 +87,35 @@ interface PathArray<T, L> extends Array<string | number> {
           : never
         : never
       : never
-    : never,
+    : never
 }
 
 type ArrayHasIndex<MinLenght extends number> = { [K in MinLenght]: any }
 
 type PathArrayValue<T, L extends PathArray<T, L>> = L extends ArrayHasIndex<
-0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+  0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 >
   ? any
   : L extends ArrayHasIndex<0 | 1 | 2 | 3 | 4 | 5 | 6>
-    ? T[L[0]][L[1]][L[2]][L[3]][L[4]][L[5]][L[6]]
-    : L extends ArrayHasIndex<0 | 1 | 2 | 3 | 4 | 5>
-      ? T[L[0]][L[1]][L[2]][L[3]][L[4]][L[5]]
-      : L extends ArrayHasIndex<0 | 1 | 2 | 3 | 4>
-        ? T[L[0]][L[1]][L[2]][L[3]][L[4]]
-        : L extends ArrayHasIndex<0 | 1 | 2 | 3>
-          ? T[L[0]][L[1]][L[2]][L[3]]
-          : L extends ArrayHasIndex<0 | 1 | 2>
-            ? T[L[0]][L[1]][L[2]]
-            : L extends ArrayHasIndex<0 | 1>
-              ? T[L[0]][L[1]]
-              : L extends ArrayHasIndex<0>
-                ? T[L[0]]
-                : never
+  ? T[L[0]][L[1]][L[2]][L[3]][L[4]][L[5]][L[6]]
+  : L extends ArrayHasIndex<0 | 1 | 2 | 3 | 4 | 5>
+  ? T[L[0]][L[1]][L[2]][L[3]][L[4]][L[5]]
+  : L extends ArrayHasIndex<0 | 1 | 2 | 3 | 4>
+  ? T[L[0]][L[1]][L[2]][L[3]][L[4]]
+  : L extends ArrayHasIndex<0 | 1 | 2 | 3>
+  ? T[L[0]][L[1]][L[2]][L[3]]
+  : L extends ArrayHasIndex<0 | 1 | 2>
+  ? T[L[0]][L[1]][L[2]]
+  : L extends ArrayHasIndex<0 | 1>
+  ? T[L[0]][L[1]]
+  : L extends ArrayHasIndex<0>
+  ? T[L[0]]
+  : never
 
 export type Path<T, L> = PathArray<T, L> | keyof T
 
 export type PathValue<T, L extends Path<T, L>> = L extends PathArray<T, L>
   ? PathArrayValue<T, L>
   : L extends keyof T
-    ? T[L]
-    : any
+  ? T[L]
+  : any

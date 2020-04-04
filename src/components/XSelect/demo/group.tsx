@@ -6,7 +6,13 @@
 import React from 'react'
 import { XSelect, XSelectData } from 'antd-x-form'
 
-enum App { wechat, weibo, dingding, github, gitlab }
+enum App {
+  wechat,
+  weibo,
+  dingding,
+  github,
+  gitlab,
+}
 
 const apps: XSelectData<App> = [
   {
