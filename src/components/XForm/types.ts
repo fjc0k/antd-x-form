@@ -1,6 +1,13 @@
 import * as Yup from 'yup'
 import { ButtonProps } from 'antd/lib/button'
-import { DeepPartial, DeepRequired, Merge, Path, PathValue } from '../../types'
+import {
+  DeepPartial,
+  DeepRequired,
+  Defined,
+  Merge,
+  Path,
+  PathValue,
+} from '../../types'
 import { FormInstance, FormProps } from 'antd/lib/form/Form'
 import { FormItemProps } from 'antd/lib/form/FormItem'
 
@@ -68,6 +75,12 @@ export interface XFormInstance<TData extends XFormData> extends FormInstance {
   setData(data: DeepPartial<TData>): void
   /** 重置数据 */
   resetData(): void
+  /** 重置指定字段 */
+  resetField<TPath extends Path<DeepRequired<TData>, TPath>>(path: TPath): void
+  /** 监听数据变化 */
+  listenDataChange: (
+    callback: Defined<XFormProps<TData>['onDataChange']>,
+  ) => () => void
 }
 
 export type XFormItemProps<TPath, TValue> = Merge<
