@@ -27,10 +27,12 @@ export function XForm<TData extends XFormData>(
     return {
       ...antdForm,
       getData() {
-        return {
-          ...props.initialData,
-          ...antdForm.getFieldsValue(true),
-        } as any
+        return (
+          {
+            ...props.initialData,
+            ...antdForm.getFieldsValue(true),
+          } as any
+        )
       },
       setData(data) {
         return antdForm.setFieldsValue(data)
@@ -145,9 +147,11 @@ export function XForm<TData extends XFormData>(
         if (schema) {
           rules.push({
             validator(rule, value) {
-              return schema.validate(value, {
-                context: antdForm.getFieldsValue(true),
-              }) as any
+              return (
+                schema.validate(value, {
+                  context: antdForm.getFieldsValue(true),
+                }) as any
+              )
             },
           })
         }
@@ -223,6 +227,14 @@ export function XForm<TData extends XFormData>(
     }
   }, [props.labelColSpan])
 
+  const FormPureItem = useMemo((): XFormWrapperChildrenProps<
+    TData
+  >['FormPureItem'] => {
+    return function FormPureItem(formItemProps) {
+      return <FormItem {...formItemProps} noStyle={true} />
+    }
+  }, [FormItem])
+
   const SubmitButton = useMemo((): XFormWrapperChildrenProps<
     TData
   >['SubmitButton'] => {
@@ -249,6 +261,7 @@ export function XForm<TData extends XFormData>(
       FormItem={FormItem}
       FormConditionItem={FormConditionItem}
       FormActionItem={FormActionItem}
+      FormPureItem={FormPureItem}
       SubmitButton={SubmitButton}
       ResetButton={ResetButton}
     />

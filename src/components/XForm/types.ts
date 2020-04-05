@@ -7,6 +7,7 @@ import {
   Merge,
   Path,
   PathValue,
+  StrictOmit,
 } from '../../types'
 import { FormInstance, FormProps } from 'antd/lib/form/Form'
 import { FormItemProps } from 'antd/lib/form/FormItem'
@@ -117,6 +118,12 @@ export interface XFormWrapperChildrenProps<TData extends XFormData> {
   ): React.ReactElement
   FormConditionItem(props: XFormConditionItemProps<TData>): React.ReactElement
   FormActionItem(props: FormItemProps): React.ReactElement
+  FormPureItem<
+    TPath extends Path<DeepRequired<TData>, TPath>,
+    TValue extends PathValue<DeepRequired<TData>, TPath>
+  >(
+    props: StrictOmit<XFormItemProps<TPath, TValue>, 'noStyle'>,
+  ): React.ReactElement
   SubmitButton(props: ButtonProps): React.ReactElement
   ResetButton(props: ButtonProps): React.ReactElement
 }

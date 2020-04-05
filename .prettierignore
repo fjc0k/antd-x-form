@@ -2,3 +2,4 @@ node_modules/
 .umi/
 __*__/
 lib/
+pnpm-lock.yaml

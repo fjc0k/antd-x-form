@@ -69,7 +69,7 @@ export default function Demo() {
         gender: Gender.female,
         age: (undefined as any) as number,
         address: {
-          city: City.kunming,
+          city: (undefined as any) as City,
           full: '',
         },
         tags: [] as string[],
@@ -84,7 +84,7 @@ export default function Demo() {
         age: _.number().required().min(1),
         address: _.object('address', {
           city: _.mixed().required(),
-          full: _.string().required('kkk'),
+          full: _.string().required(),
         }).required('dd'),
         tags: _.array(_.string()).required(),
         password: _.string()
@@ -99,7 +99,14 @@ export default function Demo() {
           .required()
           .oneOf([$('password')], '两次密码应一致'),
       })}>
-      {({ path: $, Form, FormItem, FormActionItem, SubmitButton }) => (
+      {({
+        path: $,
+        Form,
+        FormItem,
+        FormActionItem,
+        FormPureItem,
+        SubmitButton,
+      }) => (
         <Form>
           <FormItem label='昵称' name='nickname'>
             <Input placeholder='请输入' />
@@ -113,20 +120,21 @@ export default function Demo() {
           <FormItem label='年龄' name='age'>
             <InputNumber style={{ width: '100%' }} placeholder='请输入' />
           </FormItem>
-          <FormItem
-            label='地址'
-            name='address'
-            dependencies={[$(['address', 'full'])]}>
+          <FormItem label='地址'>
             <Input.Group compact={true}>
-              <FormItem noStyle={true} name={['address', 'city']}>
-                <XSelect style={{ width: '5em' }} data={cities} />
-              </FormItem>
-              <FormItem noStyle={true} name={['address', 'full']}>
+              <FormPureItem name={['address', 'city']}>
+                <XSelect
+                  placeholder='城市'
+                  style={{ width: '5em' }}
+                  data={cities}
+                />
+              </FormPureItem>
+              <FormPureItem name={['address', 'full']}>
                 <Input
                   style={{ width: 'calc(100% - 5em)' }}
                   placeholder='详细地址'
                 />
-              </FormItem>
+              </FormPureItem>
             </Input.Group>
           </FormItem>
           <FormItem label='标签' name='tags'>
