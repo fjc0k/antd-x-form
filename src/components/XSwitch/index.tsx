@@ -18,14 +18,14 @@ export function XSwitch(props: XSwitchProps) {
   return <Switch {...switchProps} />
 }
 
-XSwitch.YesNo = function (props: XSwitchYesNoProps) {
+XSwitch.YesNo = function XSwitchYesNo(props: XSwitchYesNoProps) {
   return <XSwitch {...props} checkedChildren='是' unCheckedChildren='否' />
 }
 
-XSwitch.OnOff = function (props: XSwitchOnOffProps) {
+XSwitch.OnOff = function XSwitchOnOff(props: XSwitchOnOffProps) {
   return <XSwitch {...props} checkedChildren='开' unCheckedChildren='关' />
 }
 
-XSwitch.OpenClose = function (props: XSwitchOpenCloseProps) {
+XSwitch.OpenClose = function XSwitchOpenClose(props: XSwitchOpenCloseProps) {
   return <XSwitch {...props} checkedChildren='开启' unCheckedChildren='关闭' />
 }

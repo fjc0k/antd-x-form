@@ -60,7 +60,7 @@ const cities: XSelectData<City> = [
   },
 ]
 
-export default function () {
+export default function Demo() {
   return (
     <XForm
       initialData={{

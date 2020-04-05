@@ -19,6 +19,6 @@
     },
     "lib": ["esnext", "DOM"]
   },
-  "include": ["**/*"],
+  "include": ["**/*", "./.umirc.ts"],
   "exclude": ["node_modules", "lib"]
 }

@@ -58,7 +58,7 @@ export function XForm<TData extends XFormData>(
   }, [])
 
   const Form = useMemo((): XFormWrapperChildrenProps<TData>['Form'] => {
-    return formProps => {
+    return function FormWrapper(formProps) {
       return (
         <XFormContext.Provider value={{ layout: formProps.layout }}>
           <AntdForm
@@ -100,7 +100,7 @@ export function XForm<TData extends XFormData>(
   }, [props.onSubmit, props.labelColSpan])
 
   const FormItem = useMemo((): XFormWrapperChildrenProps<TData>['FormItem'] => {
-    return formItemProps => {
+    return function FormItemWrapper(formItemProps) {
       const schema = useMemo(() => {
         if (yupSchema) {
           try {
@@ -159,10 +159,10 @@ export function XForm<TData extends XFormData>(
                 },
               })}
           {...(formItemProps as any)}
-          children={children}
           required={required}
-          rules={rules}
-        />
+          rules={rules}>
+          {children}
+        </AntdForm.Item>
       )
     }
   }, [props.labelColSpan])
@@ -170,20 +170,22 @@ export function XForm<TData extends XFormData>(
   const FormConditionItem = useMemo((): XFormWrapperChildrenProps<
     TData
   >['FormConditionItem'] => {
-    return formItemProps => (
-      <AntdForm.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
-        {({ getFieldsValue }) => {
-          const data = getFieldsValue(true)
-          return formItemProps.children({ data } as any) as any
-        }}
-      </AntdForm.Item>
-    )
+    return function FormConditionItem(formItemProps) {
+      return (
+        <AntdForm.Item {...formItemProps} noStyle={true} shouldUpdate={true}>
+          {({ getFieldsValue }) => {
+            const data = getFieldsValue(true)
+            return formItemProps.children({ data } as any) as any
+          }}
+        </AntdForm.Item>
+      )
+    }
   }, [])
 
   const FormActionItem = useMemo((): XFormWrapperChildrenProps<
     TData
   >['FormActionItem'] => {
-    return formItemProps => {
+    return function FormActionItem(formItemProps) {
       const { layout } = React.useContext(XFormContext)
       return (
         <AntdForm.Item
@@ -206,20 +208,19 @@ export function XForm<TData extends XFormData>(
   const SubmitButton = useMemo((): XFormWrapperChildrenProps<
     TData
   >['SubmitButton'] => {
-    return buttonProps => <Button {...buttonProps} htmlType='submit' />
+    return function SubmitButton(buttonProps) {
+      return <Button {...buttonProps} htmlType='submit' />
+    }
   }, [])
 
   const ResetButton = useMemo((): XFormWrapperChildrenProps<
     TData
   >['ResetButton'] => {
-    return buttonProps => (
-      <Button
-        {...buttonProps}
-        htmlType='reset'
-        // eslint-disable-next-line react/jsx-handler-names
-        onClick={form.resetData}
-      />
-    )
+    return function ResetButton(buttonProps) {
+      return (
+        <Button {...buttonProps} htmlType='reset' onClick={form.resetData} />
+      )
+    }
   }, [])
 
   return (

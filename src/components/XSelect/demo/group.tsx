@@ -47,7 +47,7 @@ const apps: XSelectData<App> = [
   },
 ]
 
-export default function () {
+export default function Demo() {
   return (
     <div>
       <XSelect.Tags

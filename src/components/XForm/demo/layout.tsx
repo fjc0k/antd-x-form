@@ -23,7 +23,7 @@ const layouts: XRadioButtonOptions<FormProps['layout']> = [
   },
 ]
 
-export default function () {
+export default function Demo() {
   return (
     <XForm
       initialData={{

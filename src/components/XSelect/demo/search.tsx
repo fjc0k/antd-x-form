@@ -108,7 +108,7 @@ enum Hero {
   廉颇 = '廉颇',
 }
 
-export default function () {
+export default function Demo() {
   const handleSearch: XSelectService<any> = useCallback(async payload => {
     return new Promise(resolve => {
       setTimeout(() => {

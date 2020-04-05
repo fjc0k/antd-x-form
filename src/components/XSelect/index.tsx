@@ -22,17 +22,6 @@ export function XSelect<TValue extends SelectValue>(
 
   const [loading, setLoading] = useState(!!props.service)
 
-  const selectProps = omit(props, ['data', 'service'])
-  const extraSelectProps = useMemo((): SelectProps<TValue> => {
-    return !props.service
-      ? {}
-      : {
-          showSearch: true,
-          notFoundContent: loading ? <Spin /> : null,
-          onSearch: handleSearch,
-        }
-  }, [!!props.service, loading])
-
   const [data, setData] = useState<XSelectData<TValue>>(props.data || [])
 
   const handleSearch = useDebounce((keyword: string, initial = false) => {
@@ -96,6 +85,17 @@ export function XSelect<TValue extends SelectValue>(
       })
   }, 800)
 
+  const selectProps = omit(props, ['data', 'service'])
+  const extraSelectProps = useMemo((): SelectProps<TValue> => {
+    return !props.service
+      ? {}
+      : {
+          showSearch: true,
+          notFoundContent: loading ? <Spin /> : null,
+          onSearch: handleSearch,
+        }
+  }, [!!props.service, loading])
+
   const handleChange = useCallback(
     (value: TValue) => {
       valueRef.current = value
@@ -133,10 +133,10 @@ export function XSelect<TValue extends SelectValue>(
     <Select
       {...extraSelectProps}
       {...selectProps}
-      children={children}
       optionLabelProp='label'
-      onChange={handleChange}
-    />
+      onChange={handleChange}>
+      {children}
+    </Select>
   )
 }
 

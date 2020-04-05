@@ -27,7 +27,7 @@ const genders: XSelectData<Gender> = [
   },
 ]
 
-export default function () {
+export default function Demo() {
   const [gender, setGender] = useState(Gender.they)
 
   return (

@@ -7,7 +7,7 @@ import React from 'react'
 import { Checkbox, Input, Modal } from 'antd'
 import { XForm } from 'antd-x-form'
 
-export default function () {
+export default function Demo() {
   return (
     <XForm
       initialData={{

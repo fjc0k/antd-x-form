@@ -2,49 +2,39 @@
   "name": "antd-x-form",
   "version": "0.0.0",
   "description": "让 antd@4 的表单更易用。",
-  "main": "lib/cjs/index.js",
-  "module": "lib/esm/index.js",
-  "types": "lib/cjs/index.d.ts",
-  "homepage": "https://github.com/fjc0k/antd-x-form",
-  "license": "MIT",
-  "sideEffects": false,
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:fjc0k/antd-x-form.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fjc0k/antd-x-form/issues"
-  },
   "keywords": [
     "antd",
     "antd-form",
     "form",
     "react"
   ],
-  "files": [
-    "lib"
-  ],
+  "homepage": "https://github.com/fjc0k/antd-x-form",
+  "bugs": {
+    "url": "https://github.com/fjc0k/antd-x-form/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fjc0k/antd-x-form.git"
+  },
+  "license": "MIT",
   "author": {
     "name": "Jay Fong",
     "email": "fjc0kb@gmail.com",
     "url": "https://github.com/fjc0k"
   },
+  "sideEffects": false,
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/cjs/index.d.ts",
+  "files": [
+    "lib"
+  ],
   "scripts": {
-    "dev": "dumi dev",
     "build": "tsc -p tsconfig-cjs.json && tsc -p tsconfig-esm.json",
-    "test": "jest --coverage",
+    "dev": "dumi dev",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx --fix ./",
-    "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.test.ts",
-      "!src/**/__*__/**/*",
-      "!src/**/.umi/**/*",
-      "!src/**/demo/**/*"
-    ]
+    "release": "standard-version -a && npm run build && git push --follow-tags origin master && npm publish",
+    "test": "jest --coverage"
   },
   "husky": {
     "hooks": {
@@ -53,16 +43,32 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "eslint --fix"
+    "*.{css,less,scss,sass,html,htm,vue,yml,yaml,json,md}": [
+      "prettier --write"
     ],
-    "*.{js,jsx,ts,tsx,json,md}": [
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
       "prettier --write"
     ]
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.test.ts",
+      "!src/**/__*__/**/*",
+      "!src/**/.umi/**/*",
+      "!src/**/demo/**/*"
+    ],
+    "preset": "ts-jest"
+  },
+  "dependencies": {
+    "@types/yup": "^0.26.32",
+    "ts-essentials": "^6.0.2",
+    "type-fest": "^0.12.0",
+    "yup": "^0.28.3"
+  },
   "devDependencies": {
     "@ant-design/icons": "^4.0.4",
-    "@rushstack/eslint-config": "^0.5.4",
     "@types/jest": "^25.1.4",
     "@types/react": "^16.9.23",
     "@umijs/plugin-antd": "^0.3.0",
@@ -71,20 +77,14 @@
     "codecov": "^3.6.5",
     "dumi": "^1.0.13",
     "eslint": "^6.8.0",
-    "eslint-config-io": "^0.8.8",
+    "haoma": "0.0.2",
     "husky": "^4.2.3",
     "jest": "^25.1.0",
-    "lint-staged": "^10.0.8",
+    "lint-staged": "^10.1.2",
     "prettier": "^2.0.2",
     "react": "^16.13.0",
     "standard-version": "^7.1.0",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
-  },
-  "dependencies": {
-    "@types/yup": "^0.26.32",
-    "ts-essentials": "^6.0.2",
-    "type-fest": "^0.12.0",
-    "yup": "^0.28.3"
   }
 }

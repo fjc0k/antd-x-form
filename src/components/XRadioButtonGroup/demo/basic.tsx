@@ -1,7 +1,7 @@
 import React from 'react'
 import { XRadioButtonGroup, XRadioButtonOptions } from 'antd-x-form'
 
-export default function () {
+export default function Demo() {
   type ICity = 'bj' | 'sh' | 'sz' | 'cd'
 
   const cities: XRadioButtonOptions<ICity> = [
