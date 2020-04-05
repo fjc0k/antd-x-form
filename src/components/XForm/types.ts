@@ -14,15 +14,16 @@ import { FormItemProps } from 'antd/lib/form/FormItem'
 /** 表单数据 */
 export interface XFormData extends Record<string, any> {}
 
+/** Yup 定义提供器 */
 export type XFormWrapperYupSchemaProvider<TData extends XFormData> = Merge<
   typeof Yup,
   {
-    objectOf<
+    object<
       TPath extends Path<DeepRequired<TData>, TPath>,
       TValue extends PathValue<DeepRequired<TData>, TPath>
     >(
       path: TPath,
-      schema: Yup.ObjectSchemaDefinition<TValue>,
+      fields: Yup.ObjectSchemaDefinition<TValue>,
     ): Yup.ObjectSchema<TValue>
   }
 >

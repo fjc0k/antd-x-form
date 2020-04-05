@@ -57,7 +57,7 @@ export function XForm<TData extends XFormData>(
         props.yupSchema(
           {
             ...Yup,
-            objectOf: (path, schema) => Yup.object(schema),
+            object: (path, fields) => Yup.object(fields),
           },
           path => {
             return Yup.ref(`$${castArray(path as any).join('.')}`)

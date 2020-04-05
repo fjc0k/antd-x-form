@@ -82,7 +82,7 @@ export default function Demo() {
         email: _.string().required().email(),
         gender: _.mixed().required(),
         age: _.number().required().min(1),
-        address: _.objectOf('address', {
+        address: _.object('address', {
           city: _.mixed().required(),
           full: _.string().required('kkk'),
         }).required('dd'),

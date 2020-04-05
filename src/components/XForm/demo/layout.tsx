@@ -37,7 +37,7 @@ export default function Demo() {
       labelColSpan={4}
       yupSchema={_ => ({
         layout: _.mixed().required(),
-        account: _.objectOf('account', {
+        account: _.object('account', {
           user: _.string().required(),
           pass: _.string().required(),
         }).required(),
