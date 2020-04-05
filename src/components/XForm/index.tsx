@@ -1,11 +1,13 @@
 import * as Yup from 'yup'
 import React, { useCallback, useMemo } from 'react'
 import { Form as AntdForm, Button } from 'antd'
-import { castArray, hasOwn, omit } from '../../utils'
+import { castArray, EventBus, hasOwn, omit } from '../../utils'
+import { Defined } from '../../types'
 import { Rule } from 'antd/lib/form'
 import { XFormContext } from './context'
 import {
   XFormData,
+  XFormProps,
   XFormWrapperChildrenProps,
   XFormWrapperProps,
 } from './types'
@@ -14,6 +16,12 @@ export function XForm<TData extends XFormData>(
   props: XFormWrapperProps<TData>,
 ) {
   const [antdForm] = AntdForm.useForm()
+
+  const bus = useMemo(() => {
+    return new EventBus<{
+      dataChange: Defined<XFormProps<TData>['onDataChange']>
+    }>()
+  }, [])
 
   const form = useMemo((): XFormWrapperChildrenProps<TData>['form'] => {
     return {
@@ -29,6 +37,12 @@ export function XForm<TData extends XFormData>(
       },
       resetData() {
         return antdForm.resetFields()
+      },
+      resetField(path) {
+        return antdForm.resetFields([path as any])
+      },
+      listenDataChange(callback) {
+        return bus.on('dataChange', callback)
       },
     }
   }, [])
@@ -74,7 +88,9 @@ export function XForm<TData extends XFormData>(
             form={antdForm}
             initialValues={props.initialData}
             onValuesChange={(changedData, data) => {
-              formProps.onDataChange?.({
+              const payload: Parameters<
+                Defined<XFormProps<TData>['onDataChange']>
+              >[0] = {
                 changedData: changedData as any,
                 data: data as any,
                 isChanged(path) {
@@ -88,7 +104,9 @@ export function XForm<TData extends XFormData>(
                   }
                   return true
                 },
-              })
+              }
+              bus.emit('dataChange', payload)
+              formProps.onDataChange?.(payload)
               formProps.onValuesChange &&
                 formProps.onValuesChange(changedData, data)
             }}
