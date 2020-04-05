@@ -1,5 +1,4 @@
-// @ts-ignore
-import { defineConfig } from 'dumi'
+import { defineConfig } from 'umi'
 
 export default defineConfig({
   title: 'antd-x-form',
