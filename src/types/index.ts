@@ -3,6 +3,6 @@ export * from './Defined'
 export * from './Path'
 //@endindex
 
-export { RequireExactlyOne } from 'type-fest'
+export { RequireExactlyOne, LiteralUnion } from 'type-fest'
 
 export * from 'ts-essentials'
