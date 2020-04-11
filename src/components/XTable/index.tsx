@@ -105,8 +105,8 @@ function XTableComponent<TItem extends XTableItem>(
       pagination: {
         current: 1,
         pageSize: 10,
-        ...tableProps.pagination,
         ...(nextTableProps.pagination || {}),
+        ...tableProps.pagination,
       },
     }))
     setNoPagination(nextTableProps.pagination === false)
