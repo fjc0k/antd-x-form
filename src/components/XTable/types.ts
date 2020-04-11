@@ -6,6 +6,7 @@ import {
   LiteralUnion,
   Merge,
   Path,
+  RequireExactlyOne,
   StrictOmit,
 } from '../../types'
 import { TableProps } from 'antd/lib/table'
@@ -21,20 +22,30 @@ export type XTablePagination = {
   pageSize: number
 }
 
-export type XTableFilterItem<TValue = any> = {
-  label: React.ReactNode
-  value?: TValue
-  children?: XTableFilterItem<TValue>[]
-}
+/** 表格筛选条目 */
+export type XTableFilterItem<TValue = any> = RequireExactlyOne<
+  {
+    /** 标签 */
+    label: React.ReactNode
+    /** 值 */
+    value: TValue
+    /** 子条目 */
+    children: XTableFilterItem<TValue>[]
+  },
+  'value' | 'children'
+>
 
 /** 表格过滤 */
 export type XTableFilter = {
   [K in string]?: any[]
 }
 
+/** 表格排序类型 */
+export type XTableSorterType = 'asc' | 'desc'
+
 /** 表格排序 */
 export type XTableSorter = {
-  [K in string]?: 'asc' | 'desc'
+  [K in string]?: XTableSorterType
 }
 
 /** 表格字段路径 */
@@ -82,6 +93,7 @@ export type XTableDataSource<TItem extends XTableItem> = (
 export interface XTableProps<TItem extends XTableItem> {
   /** 数据源 */
   dataSource: XTableDataSource<TItem>
+  /** 数据源的依赖 */
   dataSourceDependencies?: React.DependencyList
   /** 其他属性 */
   extraProps: (payload: {
@@ -104,16 +116,22 @@ export interface XTableProps<TItem extends XTableItem> {
       >
     }
   >
+  /** 其他属性的依赖 */
   extraPropsDependencies?: React.DependencyList
 }
 
+/** 表格引用 */
 export interface XTableRef<TItem extends XTableItem> {
+  /** 触发加载状态 */
   toggleLoading(loading?: boolean): void
+  /** 刷新表格 */
   refresh(): Promise<void>
+  /** 重置表格（仅页码） */
   reset(): Promise<void>
 }
 
 export interface UseXTableResult<TItem extends XTableItem>
   extends XTableRef<TItem> {
+  /** 表格引用 */
   ref: React.Ref<XTableRef<TItem> | undefined>
 }
